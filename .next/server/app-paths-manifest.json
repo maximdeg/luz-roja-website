@@ -1,0 +1,8 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/contacto/page": "app/contacto/page.js",
+  "/cositas-gratis/page": "app/cositas-gratis/page.js",
+  "/page": "app/page.js",
+  "/terminos-y-condiciones/page": "app/terminos-y-condiciones/page.js",
+  "/politicas-de-privacidad/page": "app/politicas-de-privacidad/page.js"
+}

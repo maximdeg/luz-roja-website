@@ -1,0 +1,47 @@
+:root {
+  --color-bg: #161616;
+  --color-accent: #AB0F08;
+  --color-gray-1: #6A6969;
+  --color-gray-2: #AEAEAF;
+  --color-gray-3: #D8D7D7;
+  --color-text: #FFFFFF;
+  --color-accent-soft: #FFC900;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-main {
+  flex: 1;
+}
+
