@@ -84,6 +84,7 @@
   color: var(--color-gray-3);
   position: relative;
   white-space: nowrap;
+  font-family: "Hind", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .lr-hero-phrase {

@@ -24,6 +24,7 @@ body {
 
 body {
   min-height: 100vh;
+  font-family: "Hind", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 a {
