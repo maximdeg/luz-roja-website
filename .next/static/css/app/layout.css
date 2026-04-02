@@ -8,11 +8,7 @@
   z-index: 20;
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
-  background: linear-gradient(
-    to bottom,
-    rgba(22, 22, 22, 0.9),
-    rgba(22, 22, 22, 0.6)
-  );
+  background-color: rgba(22, 22, 22, 0.96);
   border-bottom: 1px solid transparent;
   transition:
     border-color 0.25s ease,
@@ -235,16 +231,7 @@ button {
 
 .page-main {
   flex: 1 1;
-  background: linear-gradient(
-    to bottom,
-    #161616 0%,
-    #161616 20%,
-    #202020 30%,
-    #3b3b3b 45%,
-    #7f7f7f 55%,
-    #d8d7d7 65%,
-    #d8d7d7 100%
-  );
+  background-color: var(--color-bg);
 }
 
 
@@ -252,10 +239,10 @@ button {
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[10].use[3]!./app/components/footer.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************/
 .lr-footer {
-  border-top: 1px solid rgba(22, 22, 22, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1.5rem 1.5rem 2rem;
-  background: #d8d7d7;
-  color: #161616;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .lr-footer-inner {
@@ -277,7 +264,7 @@ button {
 .lr-footer-copy {
   margin-top: 0.25rem;
   font-size: 0.8rem;
-  color: var(--color-gray-2);
+  color: var(--color-gray-3);
 }
 
 .lr-footer-nav {
@@ -288,7 +275,7 @@ button {
 }
 
 .lr-footer-nav a {
-  color: #161616;
+  color: var(--color-gray-3);
   transition: color 0.2s ease;
 }
 

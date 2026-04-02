@@ -8,7 +8,7 @@ export function Logo() {
         style={{
           display: "inline-flex",
           alignItems: "center",
-          height: 32,
+          height: 24,
           backgroundColor: "transparent"
         }}
       >

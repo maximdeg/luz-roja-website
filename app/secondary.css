@@ -28,33 +28,6 @@
   color: var(--color-gray-3);
 }
 
-.lr-contact .lr-page-kicker,
-.lr-contact .lr-page-title,
-.lr-contact .lr-page-subtitle,
-.lr-contact label {
-  color: #161616;
-}
-
-.lr-contact .lr-page-kicker {
-  opacity: 0.75;
-}
-
-.lr-contact .lr-form-group input,
-.lr-contact .lr-form-group textarea,
-.lr-contact .lr-form-group select {
-  color: #161616;
-  border-bottom-color: rgba(22, 22, 22, 0.7);
-}
-
-.lr-contact .lr-form-group textarea {
-  border-color: rgba(22, 22, 22, 0.7);
-}
-
-.lr-contact .lr-form-group select option {
-  background-color: #d8d7d7;
-  color: #161616;
-}
-
 .lr-grid-section {
   margin-top: 1.5rem;
 }

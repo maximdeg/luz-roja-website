@@ -44,15 +44,6 @@ button {
 
 .page-main {
   flex: 1;
-  background: linear-gradient(
-    to bottom,
-    #161616 0%,
-    #161616 20%,
-    #202020 30%,
-    #3b3b3b 45%,
-    #7f7f7f 55%,
-    #d8d7d7 65%,
-    #d8d7d7 100%
-  );
+  background-color: var(--color-bg);
 }
 
