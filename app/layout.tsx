@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
+import { Hind, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+
+const hind = Hind({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"]
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat"
+});
 
 export const metadata: Metadata = {
   title: "Luz Roja Contenidos",
@@ -16,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="page-container">
+      <body className={`page-container ${hind.className} ${montserrat.variable}`}>
         <Header />
         <main className="page-main">{children}</main>
         <Footer />

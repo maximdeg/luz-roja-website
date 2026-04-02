@@ -1,62 +1,16 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/chunks/app/_not-found/page-13ab98633c09e740.js"
-    ],
     "/layout": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/594af35ca4dbca1a.css",
-      "static/chunks/406-005d98a49beb42a1.js",
-      "static/chunks/630-f910ada4cc17fa3f.js",
-      "static/chunks/app/layout-6e2463b7af1226f3.js"
-    ],
-    "/cositas-gratis/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/53f8fec3a026e71e.css",
-      "static/chunks/app/cositas-gratis/page-9dd55c292096f9fd.js"
-    ],
-    "/terminos-y-condiciones/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/53f8fec3a026e71e.css",
-      "static/chunks/app/terminos-y-condiciones/page-2b64cac8842d53b0.js"
-    ],
-    "/politicas-de-privacidad/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/53f8fec3a026e71e.css",
-      "static/chunks/app/politicas-de-privacidad/page-c70565b831451653.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/9f70054f36225b97.css",
-      "static/chunks/406-005d98a49beb42a1.js",
-      "static/chunks/app/page-dc52d39b4fb24405.js"
-    ],
-    "/contacto/page": [
-      "static/chunks/webpack-85597bfbcc0623c8.js",
-      "static/chunks/4bd1b696-d18fdd8a18e110bd.js",
-      "static/chunks/182-51079781dd08379c.js",
-      "static/chunks/main-app-a8954c37b8b1d432.js",
-      "static/css/53f8fec3a026e71e.css",
-      "static/chunks/app/contacto/page-3466c3d30bb2a188.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ]
   }
 }

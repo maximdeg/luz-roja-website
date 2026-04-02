@@ -1,12 +1,8 @@
 .lr-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(22, 22, 22, 0.12);
   padding: 1.5rem 1.5rem 2rem;
-  background: radial-gradient(
-      circle at top left,
-      rgba(171, 15, 8, 0.45),
-      transparent 60%
-    ),
-    #161616;
+  background: #d8d7d7;
+  color: #161616;
 }
 
 .lr-footer-inner {
@@ -39,12 +35,12 @@
 }
 
 .lr-footer-nav a {
-  color: var(--color-gray-3);
+  color: #161616;
   transition: color 0.2s ease;
 }
 
 .lr-footer-nav a:hover {
-  color: var(--color-text);
+  color: #ab0f08;
 }
 
 @media (max-width: 768px) {
