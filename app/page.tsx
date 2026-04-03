@@ -1,9 +1,31 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
-import heroTeamPhoto from "../public/logos/DSC_3934-27.jpg";
+import heroTeamPhoto from "../public/images/hero-1.jpg";
+import antonela1 from "../public/images/ANTONELA-1.jpg";
+import antonela2 from "../public/images/ANTONELA-2.jpg";
+import antonela3 from "../public/images/ANTONELA-3.jpg";
+import antonela4 from "../public/images/ANTONELA-4.jpg";
+import mailen1 from "../public/images/MAILEN-1.jpg";
+import mailen2 from "../public/images/MAILEN-2.jpg";
+import mailen3 from "../public/images/MAILEN-3.jpg";
+import mailen4 from "../public/images/MAILEN-4.jpg";
 import "./home.css";
 import "./secondary.css";
+
+const ANTONELA_PORTRAITS: StaticImageData[] = [
+  antonela2,
+  antonela1,
+  antonela3,
+  antonela4
+];
+
+const MAILEN_PORTRAITS: StaticImageData[] = [
+  mailen3,
+  mailen2,
+  mailen1,
+  mailen4
+];
 
 const HERO_TICKER_PHRASE = "¿Qué hacemos?";
 const HERO_TICKER_REPEAT = 14;
@@ -38,7 +60,7 @@ function HeroSection() {
         <div className="lr-hero-photo">
           <Image
             src={heroTeamPhoto}
-            alt="Equipo de Luz Roja"
+            alt="Luz Roja — silueta con smartphone sobre fondo rojo"
             fill
             sizes="(min-width: 900px) 50vw, 100vw"
             priority
@@ -297,19 +319,31 @@ function ServicesSection() {
   );
 }
 
-function NosotrasGallerySlots(props: { label: string }) {
+function NosotrasGallery(props: {
+  label: string;
+  images: StaticImageData[];
+  name: string;
+}) {
   return (
     <div
       className="lr-nosotras-gallery"
       role="list"
       aria-label={props.label}
     >
-      {[0, 1, 2, 3].map((index) => (
+      {props.images.map((src, index) => (
         <div
-          key={index}
+          key={`${props.name}-${index}`}
           className="lr-nosotras-gallery-slot"
           role="listitem"
-        />
+        >
+          <Image
+            src={src}
+            alt={`${props.name}, retrato ${index + 1} de 4`}
+            fill
+            sizes="(max-width: 520px) 50vw, 25vw"
+            className="lr-nosotras-gallery-img"
+          />
+        </div>
       ))}
     </div>
   );
@@ -331,12 +365,20 @@ function NosotrasSection() {
         <span className="lr-nosotras-divider-line" aria-hidden />
         <h3 className="lr-nosotras-divider-name">Antonela</h3>
       </div>
-      <NosotrasGallerySlots label="Retratos de Antonela (espacio para cuatro fotos)" />
+      <NosotrasGallery
+        name="Antonela"
+        label="Retratos de Antonela"
+        images={ANTONELA_PORTRAITS}
+      />
       <div className="lr-nosotras-divider lr-nosotras-divider--name-start">
         <h3 className="lr-nosotras-divider-name">Mailen</h3>
         <span className="lr-nosotras-divider-line" aria-hidden />
       </div>
-      <NosotrasGallerySlots label="Retratos de Mailen (espacio para cuatro fotos)" />
+      <NosotrasGallery
+        name="Mailen"
+        label="Retratos de Mailen"
+        images={MAILEN_PORTRAITS}
+      />
     </section>
   );
 }

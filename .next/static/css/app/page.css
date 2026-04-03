@@ -282,12 +282,35 @@
 }
 
 .lr-nosotras-gallery-slot {
+  position: relative;
+  overflow: hidden;
   aspect-ratio: 2 / 3;
   width: 100%;
   min-height: clamp(140px, 28vw, 260px);
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lr-nosotras-gallery-img {
+  object-fit: cover;
+  object-position: center center;
+  filter: grayscale(1);
+}
+
+/* Full color (no grayscale): Antonela retrato 2, Mailen retrato 3 */
+#nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(2) .lr-nosotras-gallery-img,
+#nosotras > .lr-nosotras-gallery:nth-child(5) .lr-nosotras-gallery-slot:nth-child(3) .lr-nosotras-gallery-img {
+  filter: none;
+}
+
+/* Slight zoom: Antonela 3–4, Mailen 1 y 3 */
+#nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(3) .lr-nosotras-gallery-img,
+#nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(4) .lr-nosotras-gallery-img,
+#nosotras > .lr-nosotras-gallery:nth-child(5) .lr-nosotras-gallery-slot:nth-child(1) .lr-nosotras-gallery-img,
+#nosotras > .lr-nosotras-gallery:nth-child(5) .lr-nosotras-gallery-slot:nth-child(3) .lr-nosotras-gallery-img {
+  transform: scale(1.08);
+  transform-origin: center center;
 }
 
 @media (max-width: 520px) {
