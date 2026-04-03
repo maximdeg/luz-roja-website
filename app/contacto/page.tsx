@@ -161,16 +161,6 @@ export default function ContactoPage() {
             </select>
           </div>
 
-          <div className="lr-form-group">
-            <label htmlFor="contacto-newsletter">
-              ¿Querés suscribirte a nuestras novedades?
-            </label>
-            <select id="contacto-newsletter" name="newsletter">
-              <option value="si">Sí, quiero recibir novedades</option>
-              <option value="no">No por ahora</option>
-            </select>
-          </div>
-
           <p className="lr-page-subtitle">
             Al enviar este formulario aceptás que almacenemos tus datos para
             gestionar tu consulta. Podés escribirnos en cualquier momento si

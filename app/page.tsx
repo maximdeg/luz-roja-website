@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import heroTeamPhoto from "../public/logos/DSC_3934-27.jpg";
 import "./home.css";
 import "./secondary.css";
@@ -93,6 +93,8 @@ interface ServiceFlipCardProps {
   line2: string;
   backLine1: string;
   backLine2?: string;
+  /** Public URL (e.g. `/images/2.png`) for back face background with dark overlay */
+  backImageUrl?: string;
 }
 
 interface ServiceCardLinesProps {
@@ -136,12 +138,30 @@ function ServiceFlipCard({
   line1,
   line2,
   backLine1,
-  backLine2
+  backLine2,
+  backImageUrl
 }: ServiceFlipCardProps) {
   const backVariant = variant === "light" ? "dark" : "light";
   const title = `${line1} ${line2}`.trim();
   const detail = [backLine1, backLine2].filter(Boolean).join(" ");
   const ariaLabel = `${title}. ${detail}`;
+
+  const backClassName = [
+    "lr-services-board-card",
+    "lr-services-board-card-face",
+    "lr-services-board-card-face--back",
+    `lr-services-board-card--${backVariant}`,
+    backImageUrl ? "lr-services-board-card-back--photo" : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const backStyle =
+    backImageUrl !== undefined
+      ? ({
+          "--lr-card-back-image": `url("${backImageUrl}")`
+        } as CSSProperties)
+      : undefined;
 
   return (
     <div
@@ -156,10 +176,7 @@ function ServiceFlipCard({
         >
           <ServiceCardLines line1={line1} line2={line2} />
         </div>
-        <div
-          className={`lr-services-board-card lr-services-board-card-face lr-services-board-card-face--back lr-services-board-card--${backVariant}`}
-          aria-hidden
-        >
+        <div className={backClassName} style={backStyle} aria-hidden>
           <ServiceCardBackLines line1={backLine1} line2={backLine2} />
         </div>
       </div>
@@ -173,14 +190,16 @@ const SERVICES_BOARD_ROWS: ServiceFlipCardProps[] = [
     line1: "Auditoria",
     line2: "digital",
     backLine1: "Diagnóstico y optimización",
-    backLine2: "de IG profesional"
+    backLine2: "de IG profesional",
+    backImageUrl: "/images/9.png"
   },
   {
     variant: "dark",
     line1: "¿Me haces",
     line2: "un videito?",
     backLine1: "Producción integral de Reels",
-    backLine2: "con narrativa visual"
+    backLine2: "con narrativa visual",
+    backImageUrl: "/images/7.png"
   },
   {
     variant: "light",
@@ -255,6 +274,7 @@ function ServicesSection() {
           line2="maestro"
           backLine1="Calendario de Contenidos"
           backLine2="Personalizado"
+          backImageUrl="/images/2.png"
         />
         {SERVICES_BOARD_ROWS.map((service) => (
           <ServiceFlipCard
@@ -264,6 +284,7 @@ function ServicesSection() {
             line2={service.line2}
             backLine1={service.backLine1}
             backLine2={service.backLine2}
+            backImageUrl={service.backImageUrl}
           />
         ))}
       </div>
@@ -271,20 +292,76 @@ function ServicesSection() {
   );
 }
 
+function NosotrasGallerySlots(props: { label: string }) {
+  return (
+    <div
+      className="lr-nosotras-gallery"
+      role="list"
+      aria-label={props.label}
+    >
+      {[0, 1, 2, 3].map((index) => (
+        <div
+          key={index}
+          className="lr-nosotras-gallery-slot"
+          role="listitem"
+        />
+      ))}
+    </div>
+  );
+}
+
 function NosotrasSection() {
   return (
     <section className="lr-nosotras" id="nosotras">
       <div className="lr-nosotras-inner">
-        <p className="lr-section-kicker">Nosotras</p>
-        <h2 className="lr-nosotras-title">
-          Somos quienes encienden la luz roja detrás de cada historia.
-        </h2>
-        <p className="lr-nosotras-body">
-          Luz Roja nace de la mirada de dos creadoras que encuentran belleza en lo cotidiano,
-          en los silencios y en las pequeñas escenas que construyen una comunidad. Pensamos
-          cada proyecto como un set: encendemos la luz, acomodamos el cuadro y dejamos que
-          tu voz aparezca con claridad, sin poses forzadas ni disfraces.
+        <h2 className="lr-nosotras-heading">Nosotras.</h2>
+        <p className="lr-nosotras-lead">
+          Cada una trae una historia propia. Una, fotógrafa, actriz y diseñadora, aporta la
+          sensibilidad visual y la capacidad de capturar emociones; la otra, docente,
+          comunicadora, redactora y especialista en audio, brinda estructura, narrativa y
+          resonancia.
         </p>
+      </div>
+      <div className="lr-nosotras-divider">
+        <span className="lr-nosotras-divider-line" aria-hidden />
+        <h3 className="lr-nosotras-divider-name">Antonela</h3>
+      </div>
+      <NosotrasGallerySlots label="Retratos de Antonela (espacio para cuatro fotos)" />
+      <div className="lr-nosotras-divider lr-nosotras-divider--name-start">
+        <h3 className="lr-nosotras-divider-name">Mailen</h3>
+        <span className="lr-nosotras-divider-line" aria-hidden />
+      </div>
+      <NosotrasGallerySlots label="Retratos de Mailen (espacio para cuatro fotos)" />
+    </section>
+  );
+}
+
+function TestimonialSection() {
+  return (
+    <section
+      className="lr-testimonial"
+      id="testimonio"
+      aria-labelledby="testimonio-heading"
+    >
+      <h2 id="testimonio-heading" className="sr-only">
+        Testimonio
+      </h2>
+      <div className="lr-testimonial-inner">
+        <p className="lr-testimonial-kicker">Lo que dicen quienes confían en nosotras</p>
+        <blockquote className="lr-testimonial-quote">
+          <span className="lr-testimonial-mark" aria-hidden>
+            “
+          </span>
+          <p>
+            Nos acompañaron en todo el proceso: desde ordenar ideas hasta el último Reel. La
+            comunicación de nuestra marca por fin se siente nuestra y, al mismo tiempo,
+            profesional.
+          </p>
+        </blockquote>
+        <footer className="lr-testimonial-footer">
+          <cite className="lr-testimonial-author">Equipo fundador</cite>
+          <span className="lr-testimonial-role">Marca de bienestar</span>
+        </footer>
       </div>
     </section>
   );
@@ -373,43 +450,6 @@ function ContactSection() {
           </div>
 
           <div className="lr-form-group">
-            <label htmlFor="contacto-pais-home">
-              ¿En qué país te encontrás?*
-            </label>
-            <input
-              id="contacto-pais-home"
-              name="pais"
-              type="text"
-              required
-              placeholder="País / ciudad"
-            />
-          </div>
-
-          <div className="lr-form-group">
-            <label htmlFor="contacto-porque-home">
-              ¿Por qué querés trabajar con Luz Roja?*
-            </label>
-            <textarea
-              id="contacto-porque-home"
-              name="porque"
-              rows={3}
-              required
-            />
-          </div>
-
-          <div className="lr-form-group">
-            <label htmlFor="contacto-proyecto-home">
-              Contanos más sobre tu proyecto o marca*
-            </label>
-            <textarea
-              id="contacto-proyecto-home"
-              name="proyecto"
-              rows={4}
-              required
-            />
-          </div>
-
-          <div className="lr-form-group">
             <label htmlFor="contacto-web-home">
               ¿Cuál es la web o Instagram de tu marca?*
             </label>
@@ -420,28 +460,6 @@ function ContactSection() {
               required
               placeholder="URL o @usuario"
             />
-          </div>
-
-          <div className="lr-form-group">
-            <label htmlFor="contacto-presupuesto-home">
-              ¿Cuál es tu presupuesto para este proyecto?*
-            </label>
-            <select
-              id="contacto-presupuesto-home"
-              name="presupuesto"
-              required
-              defaultValue=""
-            >
-              <option value="">Seleccioná un rango</option>
-              <option value="hasta-1000">Hasta USD 1.000</option>
-              <option value="1000-2000">Entre USD 1.000 y USD 2.000</option>
-              <option value="2000-4000">Entre USD 2.000 y USD 4.000</option>
-              <option value="4000-8000">Entre USD 4.000 y USD 8.000</option>
-              <option value="8000-15000">
-                Entre USD 8.000 y USD 15.000
-              </option>
-              <option value="mas-15000">Más de USD 15.000</option>
-            </select>
           </div>
 
           <div className="lr-form-group">
@@ -461,16 +479,6 @@ function ContactSection() {
               <option value="recomendacion">Recomendación</option>
               <option value="busqueda">Búsqueda en Google</option>
               <option value="otro">Otro</option>
-            </select>
-          </div>
-
-          <div className="lr-form-group">
-            <label htmlFor="contacto-newsletter-home">
-              ¿Querés suscribirte a nuestras novedades?
-            </label>
-            <select id="contacto-newsletter-home" name="newsletter" defaultValue="si">
-              <option value="si">Sí, quiero recibir novedades</option>
-              <option value="no">No por ahora</option>
             </select>
           </div>
 
@@ -496,6 +504,7 @@ export default function HomePage() {
       <HeroTickerBar />
       <ServicesSection />
       <NosotrasSection />
+      <TestimonialSection />
       <ContactSection />
     </div>
   );

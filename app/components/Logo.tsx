@@ -3,25 +3,14 @@ import Link from "next/link";
 
 export function Logo() {
   return (
-    <Link href="/">
-      <div
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          height: 24,
-          backgroundColor: "transparent"
-        }}
-      >
+    <Link href="/" className="lr-header-logo-link">
+      <div className="lr-header-logo-mark">
         <Image
           src="/logos/One Line Logo - White.png"
           alt="Luz Roja Contenidos"
           width={120}
           height={78}
-          style={{
-            width: "auto",
-            height: "100%",
-            objectFit: "cover"
-          }}
+          className="lr-header-logo-img"
           priority
         />
       </div>

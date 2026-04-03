@@ -9,6 +9,7 @@
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
   background-color: rgba(22, 22, 22, 0.96);
+  background-color: color-mix(in srgb, var(--color-bg) 96%, transparent);
   border-bottom: 1px solid transparent;
   transition:
     border-color 0.25s ease,
@@ -38,11 +39,35 @@
 }
 
 .lr-header-logo {
+  display: flex;
+  align-items: center;
   opacity: 0;
   transform: translateY(-4px);
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
+}
+
+.lr-header-logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.lr-header-logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  height: 20px;
+}
+
+.lr-header-logo-img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
 }
 
 .lr-header--scrolled .lr-header-logo {
@@ -155,7 +180,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.25rem;
-    background: #050505;
+    background-color: var(--color-bg);
     min-height: 100vh;
     transform: translateX(100%);
     opacity: 0;
@@ -186,13 +211,14 @@
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
 :root {
+  color-scheme: dark;
   --color-bg: #161616;
-  --color-accent: #AB0F08;
-  --color-gray-1: #6A6969;
-  --color-gray-2: #AEAEAF;
-  --color-gray-3: #D8D7D7;
-  --color-text: #FFFFFF;
-  --color-accent-soft: #FFC900;
+  --color-accent: #ab0f08;
+  --color-gray-1: #6a6969;
+  --color-gray-2: #aeaeaf;
+  --color-gray-3: #d8d7d7;
+  --color-text: #ffffff;
+  --color-accent-soft: #ffc900;
 }
 
 *,
@@ -201,16 +227,17 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+html {
+  min-height: 100%;
   background-color: var(--color-bg);
-  color: var(--color-text);
 }
 
 body {
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: inherit;
 }
 

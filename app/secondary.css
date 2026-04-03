@@ -2,6 +2,7 @@
   max-width: 1120px;
   margin: 0 auto;
   padding: 3rem 1.5rem 4rem;
+  background-color: var(--color-bg);
 }
 
 .lr-page-header {
@@ -120,7 +121,7 @@
 }
 
 .lr-form-group select option {
-  background-color: #161616;
+  background-color: var(--color-bg);
   color: var(--color-text);
 }
 
