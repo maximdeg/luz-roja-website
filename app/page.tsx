@@ -184,6 +184,11 @@ function ServiceFlipCard({
   );
 }
 
+/**
+ * Desktop 4×2 service grid (below intro + plan): orthogonal neighbors always differ
+ * (checkerboard). “El plan” (light) sits above “Tu marca” (dark) in col 4. Mobile list:
+ * one consecutive light pair (plan → Auditoría).
+ */
 const SERVICES_BOARD_ROWS: ServiceFlipCardProps[] = [
   {
     variant: "light",
