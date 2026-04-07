@@ -2,6 +2,7 @@ import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
 import heroTeamPhoto from "../public/images/hero-1.jpg";
+import heroTeamPhotoHover from "../public/images/hero-2.jpg";
 import antonela1 from "../public/images/ANTONELA-1.jpg";
 import antonela2 from "../public/images/ANTONELA-2.jpg";
 import antonela3 from "../public/images/ANTONELA-3.jpg";
@@ -10,6 +11,11 @@ import mailen1 from "../public/images/MAILEN-1.jpg";
 import mailen2 from "../public/images/MAILEN-2.jpg";
 import mailen3 from "../public/images/MAILEN-3.jpg";
 import mailen4 from "../public/images/MAILEN-4.jpg";
+import {
+  ContactOrigenSelect,
+  ContactServicioSelect
+} from "./components/contact-conditional-selects";
+import { TestimonialCarousel } from "./components/testimonial-carousel";
 import "./home.css";
 import "./secondary.css";
 
@@ -58,14 +64,28 @@ function HeroSection() {
     <section className="lr-hero" id="hero">
       <div className="lr-hero-inner">
         <div className="lr-hero-photo">
-          <Image
-            src={heroTeamPhoto}
-            alt="Luz Roja — silueta con smartphone sobre fondo rojo"
-            fill
-            sizes="(min-width: 900px) 50vw, 100vw"
-            priority
-            style={{ objectFit: "cover" }}
-          />
+          <div className="lr-hero-photo-layer" aria-hidden>
+            <Image
+              src={heroTeamPhotoHover}
+              alt=""
+              fill
+              sizes="(min-width: 900px) 50vw, 100vw"
+              priority
+              className="lr-hero-photo-img lr-hero-photo-img--hover"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="lr-hero-photo-layer">
+            <Image
+              src={heroTeamPhoto}
+              alt="Luz Roja — silueta con smartphone sobre fondo rojo"
+              fill
+              sizes="(min-width: 900px) 50vw, 100vw"
+              priority
+              className="lr-hero-photo-img lr-hero-photo-img--base"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
         </div>
         <div className="lr-hero-content">
           <h1 className="lr-hero-headline">
@@ -109,6 +129,18 @@ function ServicesPhoneIcon() {
   );
 }
 
+function ServicesFlipIcon() {
+  return (
+    <Image
+      src="/icons/rotate.png"
+      alt=""
+      width={22}
+      height={22}
+      className="lr-services-flip-icon-image"
+    />
+  );
+}
+
 interface ServiceFlipCardProps {
   variant: "light" | "dark";
   line1: string;
@@ -134,23 +166,75 @@ function ServiceCardLines(props: ServiceCardLinesProps) {
 }
 
 interface ServiceCardBackLinesProps {
-  line1: string;
-  line2?: string;
+  lines: string[];
+}
+
+function splitWordsIntoLines(text: string, lineCount: number) {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 1 || lineCount <= 1) return [text.trim()].filter(Boolean);
+
+  if (lineCount === 3 && words.length === 4) return [words[0], `${words[1]} ${words[2]}`, words[3]];
+
+  if (lineCount === 3 && words.length === 5)
+    return [`${words[0]} ${words[1]}`, `${words[2]} ${words[3]}`, words[4]];
+
+  const totalLength = words.reduce((sum, word) => sum + word.length, 0);
+  const target = Math.ceil(totalLength / lineCount);
+
+  const lines: string[] = [];
+  let current: string[] = [];
+  let currentLen = 0;
+
+  for (const word of words) {
+    const nextLen = currentLen + word.length + (current.length > 0 ? 1 : 0);
+    const shouldBreak =
+      lines.length < lineCount - 1 && current.length > 0 && nextLen > target;
+
+    if (shouldBreak) {
+      lines.push(current.join(" "));
+      current = [word];
+      currentLen = word.length;
+      continue;
+    }
+
+    current.push(word);
+    currentLen = nextLen;
+  }
+
+  if (current.length > 0) lines.push(current.join(" "));
+  return lines.filter(Boolean);
+}
+
+function getBackLines(line1: string, line2?: string) {
+  const merged = [line1, line2].filter(Boolean).join(" ").trim();
+  if (!merged) return [];
+
+  const mergedWordCount = merged.split(/\s+/).filter(Boolean).length;
+  const shouldUseThreeLines = merged.length >= 40 || (mergedWordCount >= 4 && merged.length >= 28);
+  if (shouldUseThreeLines) return splitWordsIntoLines(merged, 3);
+
+  return [line1, line2].filter(Boolean) as string[];
 }
 
 function ServiceCardBackLines(props: ServiceCardBackLinesProps) {
+  const lines = props.lines.filter(Boolean);
+  const hasSingleLine = lines.length === 1;
+
   return (
     <span className="lr-services-board-card-text lr-services-board-card-text--back">
-      {props.line2 ? (
-        <>
-          <span className="lr-services-board-card-line">{props.line1}</span>
-          <span className="lr-services-board-card-line">{props.line2}</span>
-        </>
-      ) : (
-        <span className="lr-services-board-card-line lr-services-board-card-line--back-single">
-          {props.line1}
+      {lines.map((line, index) => (
+        <span
+          key={`${line}-${index}`}
+          className={[
+            "lr-services-board-card-line",
+            hasSingleLine ? "lr-services-board-card-line--back-single" : ""
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {line}
         </span>
-      )}
+      ))}
     </span>
   );
 }
@@ -167,6 +251,7 @@ function ServiceFlipCard({
   const title = `${line1} ${line2}`.trim();
   const detail = [backLine1, backLine2].filter(Boolean).join(" ");
   const ariaLabel = `${title}. ${detail}`;
+  const backLines = getBackLines(backLine1, backLine2);
 
   const backClassName = [
     "lr-services-board-card",
@@ -188,10 +273,14 @@ function ServiceFlipCard({
   return (
     <div
       className="lr-services-flip"
+      data-variant={variant}
       tabIndex={0}
       role="group"
       aria-label={ariaLabel}
     >
+      <span className="lr-services-flip-icon" aria-hidden>
+        <ServicesFlipIcon />
+      </span>
       <div className="lr-services-flip-inner">
         <div
           className={`lr-services-board-card lr-services-board-card-face lr-services-board-card-face--front lr-services-board-card--${variant}`}
@@ -199,7 +288,7 @@ function ServiceFlipCard({
           <ServiceCardLines line1={line1} line2={line2} />
         </div>
         <div className={backClassName} style={backStyle} aria-hidden>
-          <ServiceCardBackLines line1={backLine1} line2={backLine2} />
+          <ServiceCardBackLines lines={backLines} />
         </div>
       </div>
     </div>
@@ -218,7 +307,7 @@ const SERVICES_BOARD_ROWS: ServiceFlipCardProps[] = [
     line2: "digital",
     backLine1: "Diagnóstico y optimización",
     backLine2: "de IG profesional",
-    backImageUrl: "/images/9.png"
+    backImageUrl: "/images/AUDITORIA DIGITAL (3).png"
   },
   {
     variant: "dark",
@@ -226,46 +315,52 @@ const SERVICES_BOARD_ROWS: ServiceFlipCardProps[] = [
     line2: "un videito?",
     backLine1: "Producción integral de Reels",
     backLine2: "con narrativa visual",
-    backImageUrl: "/images/7.png"
+    backImageUrl: "/images/ME HACES UN VIDEITO.png"
   },
   {
     variant: "light",
     line1: "Del qué",
     line2: "al cómo",
     backLine1: "Asesorías en comunicación",
-    backLine2: "creativa y digital"
+    backLine2: "creativa y digital",
+    backImageUrl: "/images/DEL QUE AL COMO (2).png"
   },
   {
     variant: "dark",
     line1: "Tu marca",
     line2: "tu huella",
-    backLine1: "Fotografía de retrato"
+    backLine1: "Fotografía de retrato",
+    backImageUrl: "/images/TU MARCA, TU HUELLA.png"
   },
   {
     variant: "dark",
     line1: "Headshot",
     line2: "express",
-    backLine1: "Fotografía de retrato"
+    backLine1: "Fotografía de retrato",
+    backImageUrl: "/images/HEADSHOT EXPRESS.png"
   },
   {
     variant: "light",
     line1: "Por fin todos",
     line2: "juntos",
     backLine1: "Fotografía de retrato",
-    backLine2: "corporativo"
+    backLine2: "corporativo",
+    backImageUrl: "/images/POR FIN TODOS JUNTOS.png"
   },
   {
     variant: "dark",
     line1: "Cada palabra",
     line2: "cuenta",
     backLine1: "Redacción SEO",
-    backLine2: "para mejorar tu posicionamiento"
+    backLine2: "para mejorar tu posicionamiento",
+    backImageUrl: "/images/CADA PALABRA CUENTA.png"
   },
   {
     variant: "light",
     line1: "Te armamos",
     line2: "la vidriera",
-    backLine1: "Fotografía de producto"
+    backLine1: "Fotografía de producto",
+    backImageUrl: "/images/TE ARMAMOS LA VIDRIERA.png"
   }
 ];
 
@@ -279,16 +374,12 @@ function ServicesSection() {
         <div className="lr-services-board-intro">
           <div className="lr-services-board-intro-body">
             <p className="lr-services-board-intro-para">
-              Ofrecemos distintos servicios que son independientes entre sí,
+              Ofrecemos distintos servicios que son independientes entre sí, pero que al
+              unirlos forman un{" "}
+              <em className="lr-services-board-intro-em">recorrido estratégico</em>{" "}
+              diseñado especialmente para hacer que la comunicación de tu marca deje
+              huella.
             </p>
-            <p className="lr-services-board-intro-para">
-              pero que al unirlos forman un{" "}
-              <em className="lr-services-board-intro-em">recorrido estratégico</em>
-            </p>
-            <p className="lr-services-board-intro-para">
-              diseñado especialmente para hacer que la comunicación de tu marca
-            </p>
-            <p className="lr-services-board-intro-para">deje huella.</p>
           </div>
           <Link href="/#contacto" className="lr-services-charlemos">
             <ServicesPhoneIcon />
@@ -301,7 +392,7 @@ function ServicesSection() {
           line2="maestro"
           backLine1="Calendario de Contenidos"
           backLine2="Personalizado"
-          backImageUrl="/images/2.png"
+          backImageUrl="/images/EL PLAN MAESTRO (3).png"
         />
         {SERVICES_BOARD_ROWS.map((service) => (
           <ServiceFlipCard
@@ -391,25 +482,9 @@ function TestimonialSection() {
       aria-labelledby="testimonio-heading"
     >
       <h2 id="testimonio-heading" className="sr-only">
-        Testimonio
+        Testimonios
       </h2>
-      <div className="lr-testimonial-inner">
-        <p className="lr-testimonial-kicker">Lo que dicen quienes confían en nosotras</p>
-        <blockquote className="lr-testimonial-quote">
-          <span className="lr-testimonial-mark" aria-hidden>
-            “
-          </span>
-          <p>
-            Nos acompañaron en todo el proceso: desde ordenar ideas hasta el último Reel. La
-            comunicación de nuestra marca por fin se siente nuestra y, al mismo tiempo,
-            profesional.
-          </p>
-        </blockquote>
-        <footer className="lr-testimonial-footer">
-          <cite className="lr-testimonial-author">Equipo fundador</cite>
-          <span className="lr-testimonial-role">Marca de bienestar</span>
-        </footer>
-      </div>
+      <TestimonialCarousel />
     </section>
   );
 }
@@ -417,23 +492,24 @@ function TestimonialSection() {
 function ContactSection() {
   return (
     <section className="lr-contact" id="contacto">
-      <div className="lr-page-header">
-        <p className="lr-page-kicker">Trabajemos juntas</p>
-        <h2 className="lr-page-title">
-          Nos inspiran las historias. Contanos todo sobre tu proyecto.
-        </h2>
-        <p className="lr-page-subtitle">
-          Queremos trabajar con vos y encender la luz roja para tu marca.
-          Escribinos y te respondemos con toda la información para dar el
-          siguiente paso.
-        </p>
-        <p className="lr-page-subtitle">
-          Para cualquier otra consulta también podés escribirnos directo a{" "}
-          <strong>hola@luzrojacontenidos.com</strong>.
-        </p>
-      </div>
-      <section className="lr-form-section">
-        <form className="lr-form">
+      <div className="lr-contact-inner">
+        <div className="lr-contact-left">
+          <div className="lr-page-header">
+            <p className="lr-page-kicker">Trabajemos juntas</p>
+            <h2 className="lr-page-title">¿Querés saber más?</h2>
+            <p className="lr-page-subtitle">
+              Queremos trabajar con vos y encender la luz roja para tu marca. Escribinos y
+              te respondemos con toda la información para dar el siguiente paso.
+            </p>
+            <p className="lr-page-subtitle">
+              Para cualquier otra consulta también podés escribirnos directo a{" "}
+              <strong>luzrojacontenidos@gmail.com</strong>.
+            </p>
+          </div>
+        </div>
+
+        <section className="lr-form-section lr-contact-right" aria-label="Formulario de contacto">
+          <form className="lr-form">
           <div className="lr-form-grid">
             <div className="lr-form-group">
               <label htmlFor="contacto-nombre-home">Nombre*</label>
@@ -476,25 +552,7 @@ function ContactSection() {
             </div>
           </div>
 
-          <div className="lr-form-group">
-            <label htmlFor="contacto-servicio-home">
-              ¿Qué servicio te interesa?*
-            </label>
-            <select
-              id="contacto-servicio-home"
-              name="servicio"
-              required
-              defaultValue=""
-            >
-              <option value="">Seleccioná una opción</option>
-              <option value="branding">Narrativa y storytelling</option>
-              <option value="contenido">Contenido visual y audiovisual</option>
-              <option value="fotografia">Fotografía</option>
-              <option value="web">Contenido y narrativa para web</option>
-              <option value="redes">Gestión y estrategia de redes</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
+          <ContactServicioSelect form="home" />
 
           <div className="lr-form-group">
             <label htmlFor="contacto-web-home">
@@ -509,25 +567,7 @@ function ContactSection() {
             />
           </div>
 
-          <div className="lr-form-group">
-            <label htmlFor="contacto-origen-home">
-              ¿Dónde nos conociste?*
-            </label>
-            <select
-              id="contacto-origen-home"
-              name="origen"
-              required
-              defaultValue=""
-            >
-              <option value="">Seleccioná una opción</option>
-              <option value="instagram">Instagram</option>
-              <option value="tiktok">TikTok</option>
-              <option value="youtube">YouTube</option>
-              <option value="recomendacion">Recomendación</option>
-              <option value="busqueda">Búsqueda en Google</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
+          <ContactOrigenSelect form="home" />
 
           <p className="lr-page-subtitle">
             Al enviar este formulario aceptás que almacenemos tus datos para
@@ -538,8 +578,9 @@ function ContactSection() {
           <button type="submit" className="lr-primary-button">
             Enviar formulario
           </button>
-        </form>
-      </section>
+          </form>
+        </section>
+      </div>
     </section>
   );
 }

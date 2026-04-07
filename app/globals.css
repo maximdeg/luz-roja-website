@@ -38,6 +38,65 @@ button {
   font: inherit;
 }
 
+.lr-back-to-top {
+  position: fixed;
+  right: clamp(1rem, 2.2vw, 1.5rem);
+  bottom: clamp(1rem, 2.2vw, 1.5rem);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, #ab0f08 0%, #d0150d 55%, #ff3b30 100%);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.98);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    visibility 160ms ease;
+}
+
+.lr-back-to-top--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lr-back-to-top:hover {
+  filter: brightness(1.08) saturate(1.05);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.75);
+}
+
+.lr-back-to-top:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+}
+
+.lr-back-to-top:focus-visible {
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 3px;
+}
+
+.lr-back-to-top-icon {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-back-to-top,
+  .lr-back-to-top--visible {
+    transition: none;
+  }
+}
+
 .page-container {
   min-height: 100vh;
   display: flex;

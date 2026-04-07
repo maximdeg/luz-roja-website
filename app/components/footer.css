@@ -15,10 +15,42 @@
 }
 
 .lr-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: 0.75rem;
+}
+
+.lr-footer-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 999px;
+  color: var(--color-accent);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.lr-footer-social:hover {
+  color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lr-footer-social:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.lr-footer-social-icon {
+  display: block;
+  width: 3.75rem;
+  height: 3.75rem;
 }
 
 .lr-footer-copy {

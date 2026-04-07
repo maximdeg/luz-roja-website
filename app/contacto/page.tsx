@@ -1,3 +1,7 @@
+import {
+  ContactOrigenSelect,
+  ContactServicioSelect
+} from "../components/contact-conditional-selects";
 import "../secondary.css";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +24,7 @@ export default function ContactoPage() {
         </p>
         <p className="lr-page-subtitle">
           Para cualquier otra consulta también podés escribirnos directo a{" "}
-          <strong>hola@luzrojacontenidos.com</strong>.
+          <strong>luzrojacontenidos@gmail.com</strong>.
         </p>
       </header>
 
@@ -63,20 +67,7 @@ export default function ContactoPage() {
             </div>
           </div>
 
-          <div className="lr-form-group">
-            <label htmlFor="contacto-servicio">¿Qué servicio te interesa?*</label>
-            <select id="contacto-servicio" name="servicio" required>
-              <option value="">Seleccioná una opción</option>
-              <option value="branding">Narrativa y storytelling</option>
-              <option value="contenido">
-                Contenido visual y audiovisual
-              </option>
-              <option value="fotografia">Fotografía</option>
-              <option value="web">Contenido y narrativa para web</option>
-              <option value="redes">Gestión y estrategia de redes</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
+          <ContactServicioSelect form="contacto" />
 
           <div className="lr-form-group">
             <label htmlFor="contacto-pais">¿En qué país te encontrás?*</label>
@@ -146,20 +137,7 @@ export default function ContactoPage() {
             </select>
           </div>
 
-          <div className="lr-form-group">
-            <label htmlFor="contacto-origen">
-              ¿Dónde nos conociste?*
-            </label>
-            <select id="contacto-origen" name="origen" required>
-              <option value="">Seleccioná una opción</option>
-              <option value="instagram">Instagram</option>
-              <option value="tiktok">TikTok</option>
-              <option value="youtube">YouTube</option>
-              <option value="recomendacion">Recomendación</option>
-              <option value="busqueda">Búsqueda en Google</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
+          <ContactOrigenSelect form="contacto" />
 
           <p className="lr-page-subtitle">
             Al enviar este formulario aceptás que almacenemos tus datos para

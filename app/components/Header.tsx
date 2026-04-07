@@ -8,6 +8,10 @@ import "./header.css";
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const prefersReducedMotion =
+    typeof window === "undefined"
+      ? true
+      : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     function handleScroll() {
@@ -52,11 +56,52 @@ export function Header() {
           className={isMenuOpen ? "lr-nav lr-nav--open" : "lr-nav"}
           aria-label="Navegación principal"
         >
-          <Link href="/">Home</Link>
-          <Link href="/#servicios">Servicios</Link>
-          <Link href="/cositas-gratis">Tienda</Link>
-          <Link href="/#nosotras">Nosotras</Link>
-          <Link href="/#contacto">Contacto</Link>
+          <Link
+            href="/"
+            onClick={() => {
+              setIsMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+            }}
+          >
+            Home
+          </Link>
+          <Link
+            href="/#servicios"
+            onClick={(event) => {
+              event.preventDefault();
+              setIsMenuOpen(false);
+              document
+                .querySelector("#servicios")
+                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+            }}
+          >
+            Servicios
+          </Link>
+          <Link href="/tienda">Tienda</Link>
+          <Link
+            href="/#nosotras"
+            onClick={(event) => {
+              event.preventDefault();
+              setIsMenuOpen(false);
+              document
+                .querySelector("#nosotras")
+                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+            }}
+          >
+            Nosotras
+          </Link>
+          <Link
+            href="/#contacto"
+            onClick={(event) => {
+              event.preventDefault();
+              setIsMenuOpen(false);
+              document
+                .querySelector("#contacto")
+                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+            }}
+          >
+            Contacto
+          </Link>
         </nav>
         {isMenuOpen ? (
           <button

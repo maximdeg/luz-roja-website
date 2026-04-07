@@ -87,6 +87,12 @@
   max-width: 520px;
 }
 
+/* Home contact section overrides (2-column layout) */
+.lr-contact .lr-form-section {
+  margin: 0;
+  max-width: none;
+}
+
 .lr-form {
   display: flex;
   flex-direction: column;
@@ -143,7 +149,7 @@
 
 .lr-primary-button {
   margin-top: 0.5rem;
-  align-self: flex-start;
+  align-self: flex-end;
   padding: 0.65rem 1.4rem;
   border-radius: 999px;
   border: none;
