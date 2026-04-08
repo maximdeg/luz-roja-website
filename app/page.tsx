@@ -1,13 +1,13 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
-import heroTeamPhoto from "../public/images/hero-1.jpg";
-import heroTeamPhotoHover from "../public/images/hero-2.jpg";
-import antonela1 from "../public/images/ANTONELA-1.jpg";
+import heroTeamPhoto from "../public/images/DSC_8835-3c.jpg";
+import heroTeamPhotoHover from "../public/images/DSC_8866-4c.jpg";
+import antonela1 from "../public/images/DSC_8706-26b.jpg";
 import antonela2 from "../public/images/ANTONELA-2.jpg";
 import antonela3 from "../public/images/ANTONELA-3.jpg";
 import antonela4 from "../public/images/ANTONELA-4.jpg";
-import mailen1 from "../public/images/MAILEN-1.jpg";
+import mailen1 from "../public/images/DSC_3808-15b.jpg";
 import mailen2 from "../public/images/MAILEN-2.jpg";
 import mailen3 from "../public/images/MAILEN-3.jpg";
 import mailen4 from "../public/images/MAILEN-4.jpg";
@@ -65,26 +65,32 @@ function HeroSection() {
       <div className="lr-hero-inner">
         <div className="lr-hero-photo">
           <div className="lr-hero-photo-layer" aria-hidden>
-            <Image
-              src={heroTeamPhotoHover}
-              alt=""
-              fill
-              sizes="(min-width: 900px) 50vw, 100vw"
-              priority
-              className="lr-hero-photo-img lr-hero-photo-img--hover"
-              style={{ objectFit: "cover" }}
-            />
+            <div className="lr-hero-photo-clip">
+              <Image
+                src={heroTeamPhotoHover}
+                alt=""
+                fill
+                sizes="(min-width: 900px) min(100vw, 1400px), 100vw"
+                quality={92}
+                priority
+                className="lr-hero-photo-img lr-hero-photo-img--hover"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
           </div>
           <div className="lr-hero-photo-layer">
-            <Image
-              src={heroTeamPhoto}
-              alt="Luz Roja — silueta con smartphone sobre fondo rojo"
-              fill
-              sizes="(min-width: 900px) 50vw, 100vw"
-              priority
-              className="lr-hero-photo-img lr-hero-photo-img--base"
-              style={{ objectFit: "cover" }}
-            />
+            <div className="lr-hero-photo-clip">
+              <Image
+                src={heroTeamPhoto}
+                alt="Luz Roja — silueta con smartphone sobre fondo rojo"
+                fill
+                sizes="(min-width: 900px) min(100vw, 1400px), 100vw"
+                quality={92}
+                priority
+                className="lr-hero-photo-img lr-hero-photo-img--base"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
           </div>
         </div>
         <div className="lr-hero-content">
@@ -433,6 +439,11 @@ function NosotrasGallery(props: {
             fill
             sizes="(max-width: 520px) 50vw, 25vw"
             className="lr-nosotras-gallery-img"
+            style={
+              props.name === "Antonela" && index === 2
+                ? { objectPosition: "center 30%" }
+                : undefined
+            }
           />
         </div>
       ))}

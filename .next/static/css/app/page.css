@@ -88,6 +88,8 @@
   min-height: 260px;
 
   overflow: hidden;
+  /* Radius on inner .lr-hero-photo-clip: transformed <img> breaks outer radius clipping in some engines */
+  --lr-hero-photo-br: clamp(16px, 2vw, 28px);
   --lr-hero-img-x: 50%;
   --lr-hero-img-y: 50%;
 }
@@ -100,6 +102,16 @@
 .lr-hero-photo-layer {
   position: absolute;
   inset: 0;
+}
+
+/* Non-transformed mask so Next/Image + translate(-50%,-50%) still get rounded right corners */
+.lr-hero-photo-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-top-right-radius: var(--lr-hero-photo-br);
+  border-bottom-right-radius: var(--lr-hero-photo-br);
+  isolation: isolate;
 }
 
 .lr-hero-photo-img {
@@ -342,12 +354,13 @@
   filter: none;
 }
 
-/* Slight zoom: Antonela 3–4, Mailen 1 y 3 */
+/* Slight zoom: Antonela 1, 3 y 4; Mailen 1 y 3 */
+#nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(1) .lr-nosotras-gallery-img,
 #nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(3) .lr-nosotras-gallery-img,
 #nosotras > .lr-nosotras-gallery:nth-child(3) .lr-nosotras-gallery-slot:nth-child(4) .lr-nosotras-gallery-img,
 #nosotras > .lr-nosotras-gallery:nth-child(5) .lr-nosotras-gallery-slot:nth-child(1) .lr-nosotras-gallery-img,
 #nosotras > .lr-nosotras-gallery:nth-child(5) .lr-nosotras-gallery-slot:nth-child(3) .lr-nosotras-gallery-img {
-  transform: scale(1.08);
+  transform: scale(1.15);
   transform-origin: center center;
 }
 
@@ -607,11 +620,13 @@
 
 .lr-contact-left {
   padding: clamp(0.25rem, 1vw, 0.75rem);
+  text-align: left;
 }
 
 .lr-contact-left .lr-page-header {
   margin: 0;
   max-width: 34rem;
+  text-align: left;
 }
 
 .lr-contact-right {
@@ -1150,12 +1165,28 @@
   }
 
   .lr-hero-photo {
+    /* Top of photo aligns with top of hero (below sticky header); no overlap into header */
     min-height: calc(560px + var(--lr-hero-header-overlap));
-    margin-top: calc(-1 * var(--lr-hero-header-overlap));
+    margin-top: 0;
+    /* Bleed to viewport left from the first grid column */
     margin-left: calc(50% - 50vw);
     width: calc(100% + (50vw - 50%));
-    --lr-hero-img-x: 50%;
-    --lr-hero-img-y: 25%;
+    align-self: start;
+    --lr-hero-img-x: 58%;
+    --lr-hero-img-y: 28%;
+    /* >1 = show more of the photo inside the same clip (zoom out) */
+    --lr-hero-img-cover-scale: 0.95;
+  }
+
+  .lr-hero-photo img {
+    width: calc(100% * var(--lr-hero-img-cover-scale)) !important;
+    height: calc(100% * var(--lr-hero-img-cover-scale)) !important;
+    max-width: none !important;
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%);
   }
 
   .lr-services {
