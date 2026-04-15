@@ -1,10 +1,10 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
-import antonela1 from "../public/images/DSC_8706-26b.jpg";
-import antonela2 from "../public/images/ANTONELA-2.jpg";
-import antonela3 from "../public/images/ANTONELA-3.jpg";
-import antonela4 from "../public/images/ANTONELA-4.jpg";
+import antonelaPortrait1 from "../public/images/Antonela4.jpg.jpeg";
+import antonelaPortrait2 from "../public/images/Antonela1.jpeg";
+import antonelaPortrait3 from "../public/images/Antonela3.jpg.jpeg";
+import antonelaPortrait4 from "../public/images/Antonela2.jpg.jpeg";
 import mailen1 from "../public/images/DSC_3808-15b.jpg";
 import mailen2 from "../public/images/MAILEN-2.jpg";
 import mailen3 from "../public/images/MAILEN-3.jpg";
@@ -18,10 +18,10 @@ import "./home.css";
 import "./secondary.css";
 
 const ANTONELA_PORTRAITS: StaticImageData[] = [
-  antonela2,
-  antonela1,
-  antonela3,
-  antonela4
+  antonelaPortrait1,
+  antonelaPortrait2,
+  antonelaPortrait3,
+  antonelaPortrait4
 ];
 
 const MAILEN_PORTRAITS: StaticImageData[] = [

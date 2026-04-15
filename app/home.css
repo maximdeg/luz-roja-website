@@ -1273,6 +1273,12 @@
   }
 }
 
+@media (min-width: 1000px) {
+  .lr-hero {
+    background-position: center top;
+  }
+}
+
 @media (max-width: 520px) {
   .lr-services-board {
     grid-template-columns: minmax(0, 1fr);
