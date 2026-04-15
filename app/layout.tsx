@@ -7,7 +7,8 @@ import { BackToTopButton } from "./components/back-to-top-button";
 
 const hind = Hind({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"]
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-hind"
 });
 
 const montserrat = Montserrat({
@@ -29,7 +30,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`page-container ${hind.className} ${montserrat.variable}`}>
+      <body
+        className={`page-container ${hind.className} ${hind.variable} ${montserrat.variable}`}
+      >
         <Header />
         <main className="page-main">{children}</main>
         <Footer />

@@ -5,10 +5,10 @@ import antonelaPortrait1 from "../public/images/Antonela4.jpg.jpeg";
 import antonelaPortrait2 from "../public/images/Antonela1.jpeg";
 import antonelaPortrait3 from "../public/images/Antonela3.jpg.jpeg";
 import antonelaPortrait4 from "../public/images/Antonela2.jpg.jpeg";
-import mailen1 from "../public/images/DSC_3808-15b.jpg";
-import mailen2 from "../public/images/MAILEN-2.jpg";
-import mailen3 from "../public/images/MAILEN-3.jpg";
-import mailen4 from "../public/images/MAILEN-4.jpg";
+import mailen1 from "../public/images/MAILEN-1.jpeg";
+import mailen2 from "../public/images/MAILEN-2.jpeg";
+import mailen3 from "../public/images/MAILEN-3.jpeg";
+import mailen4 from "../public/images/MAILEN-4.jpeg";
 import {
   ContactOrigenSelect,
   ContactServicioSelect
@@ -57,6 +57,35 @@ function HeroTickerBar() {
   );
 }
 
+function HeroCharlemosIcon() {
+  return (
+    <svg
+      className="lr-hero-charlemos-icon"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M15.5 3.5c2.2 1.6 3.6 4.1 3.9 6.9M19 1.5a11.5 11.5 0 0 1 3.5 8M12 5c1.8-.3 3.7.2 5.2 1.3"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function HeroSection() {
   return (
     <section className="lr-hero" id="hero">
@@ -69,12 +98,20 @@ function HeroSection() {
             <br />
             orden, onda y
             <br />
-            un brillo
-            <br />
-            distinto a tu
+            un{" "}
+            <span className="lr-hero-headline-emphasis">
+              brillo
+              <br />
+              distinto
+            </span>{" "}
+            a tu
             <br />
             marca.
           </h1>
+          <Link href="/#contacto" className="lr-hero-charlemos">
+            <HeroCharlemosIcon />
+            <span>Charlemos</span>
+          </Link>
         </div>
       </div>
     </section>
