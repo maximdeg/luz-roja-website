@@ -17,6 +17,12 @@
   align-items: center;
   justify-content: center;
   background-color: var(--color-bg);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url("/images/foto anto web.jpg.jpeg");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat;
   --lr-hero-header-overlap: 72px;
 }
 
@@ -1048,8 +1054,17 @@
     padding-top: 0;
   }
 
+  .lr-hero {
+    min-height: 100svh;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
   .lr-hero-inner {
     max-width: 100%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .lr-hero-photo {
@@ -1058,7 +1073,13 @@
   }
 
   .lr-hero-content {
-    padding: 0 1rem 1rem;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .lr-hero-headline {
+    padding-left: 10px;
+    font-size: clamp(2.25rem, 7vw + 0.6rem, 3.6rem);
   }
 
   .lr-services {
@@ -1204,18 +1225,22 @@
 
 @media (min-width: 900px) {
   .lr-hero-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: stretch;
-    gap: 3rem;
+    display: block;
     padding-left: 0;
     padding-right: 0;
   }
 
   .lr-hero-content {
-    max-width: none;
+    max-width: 640px;
     align-self: center;
     padding: 0 2rem 0 1.5rem;
+  }
+
+  .lr-hero-headline {
+    margin-top: 0px;
+    margin-bottom: 300px;
+    padding-left: 100px;
+    font-size: clamp(2.05rem, 3.4vw + 1.1rem, 3.5rem);
   }
 
   .lr-hero-photo {

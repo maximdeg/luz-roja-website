@@ -1,8 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
-import heroTeamPhoto from "../public/images/DSC_8835-3c.jpg";
-import heroTeamPhotoHover from "../public/images/DSC_8866-4c.jpg";
 import antonela1 from "../public/images/DSC_8706-26b.jpg";
 import antonela2 from "../public/images/ANTONELA-2.jpg";
 import antonela3 from "../public/images/ANTONELA-3.jpg";
@@ -63,36 +61,6 @@ function HeroSection() {
   return (
     <section className="lr-hero" id="hero">
       <div className="lr-hero-inner">
-        <div className="lr-hero-photo">
-          <div className="lr-hero-photo-layer" aria-hidden>
-            <div className="lr-hero-photo-clip">
-              <Image
-                src={heroTeamPhotoHover}
-                alt=""
-                fill
-                sizes="(min-width: 900px) min(100vw, 1400px), 100vw"
-                quality={92}
-                priority
-                className="lr-hero-photo-img lr-hero-photo-img--hover"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </div>
-          <div className="lr-hero-photo-layer">
-            <div className="lr-hero-photo-clip">
-              <Image
-                src={heroTeamPhoto}
-                alt="Luz Roja — silueta con smartphone sobre fondo rojo"
-                fill
-                sizes="(min-width: 900px) min(100vw, 1400px), 100vw"
-                quality={92}
-                priority
-                className="lr-hero-photo-img lr-hero-photo-img--base"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </div>
-        </div>
         <div className="lr-hero-content">
           <h1 className="lr-hero-headline">
             Te ayudamos
