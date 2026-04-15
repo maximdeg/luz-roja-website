@@ -30,6 +30,17 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
   return (
     <header className={isScrolled ? "lr-header lr-header--scrolled" : "lr-header"}>
       <div className="lr-header-inner">

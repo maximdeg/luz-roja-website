@@ -10,14 +10,14 @@
 
 .lr-hero {
   position: relative;
-  min-height: 0;
-  padding: 0;
+  min-height: 100svh;
+  padding-top: var(--lr-hero-header-overlap, 72px);
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow: hidden;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   background-color: var(--color-bg);
   --lr-hero-header-overlap: 72px;
@@ -201,7 +201,7 @@
 }
 
 .lr-intro {
-  padding: 1.5rem 0 2.5rem;
+  padding: clamp(1.75rem, 5vw, 2.25rem) 0 clamp(2.25rem, 5vw, 3rem);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   background-color: var(--color-bg);
 }
@@ -674,6 +674,18 @@
   font-family: inherit;
 }
 
+@media (max-width: 420px) {
+  .lr-hero-phrases {
+    white-space: normal;
+    min-height: 3.2rem;
+    text-wrap: balance;
+  }
+
+  .lr-hero-phrase {
+    width: 100%;
+  }
+}
+
 .lr-hero-phrase {
   position: absolute;
   opacity: 0;
@@ -984,6 +996,17 @@
 
 .lr-services-board-card-face--back.lr-services-board-card-back--photo[style*="HEADSHOT EXPRESS.png"] {
   background-size: cover, 165%;
+  background-position: center, center 10%;
+}
+
+.lr-services-board-card-face--back.lr-services-board-card-back--photo[style*="TU MARCA, TU HUELLA.png"] {
+  background-size: cover, 140%;
+  background-position: center, center 45%;
+}
+
+.lr-services-board-card-face--back.lr-services-board-card-back--photo[style*="POR FIN TODOS JUNTOS.png"] {
+  background-size: cover, 140%;
+  background-position: center, center 10%;
 }
 
 .lr-services-board-card-face--back.lr-services-board-card-back--photo
@@ -1093,6 +1116,47 @@
 
   .lr-services-board > .lr-services-flip:nth-child(2) {
     grid-column: span 2;
+  }
+
+  .lr-services-board-intro {
+    order: 0;
+  }
+
+  /* Mobile-only service card order (swap pairs as requested). */
+  .lr-services-board > .lr-services-flip:nth-child(2) {
+    order: 1;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(3) {
+    order: 3;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(4) {
+    order: 2;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(5) {
+    order: 5;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(6) {
+    order: 4;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(7) {
+    order: 6;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(8) {
+    order: 7;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(9) {
+    order: 8;
+  }
+
+  .lr-services-board > .lr-services-flip:nth-child(10) {
+    order: 9;
   }
 
   .lr-services-board-card-face {
@@ -1257,7 +1321,7 @@
 .lr-page {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
+  padding: clamp(2rem, 5vw, 3rem) 1.25rem 4rem;
   background-color: var(--color-bg);
 }
 
@@ -1364,6 +1428,7 @@
 
 .lr-form-group label {
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .lr-form-group input,
@@ -1377,6 +1442,7 @@
   color: var(--color-text);
   font-size: 0.9rem;
   outline: none;
+  min-height: 44px;
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
