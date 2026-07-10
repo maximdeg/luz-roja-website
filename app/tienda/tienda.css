@@ -250,3 +250,125 @@
   border-color: rgba(171, 15, 8, 0.92);
 }
 
+/* --- Product detail ------------------------------------------------------- */
+.lr-tienda--detalle {
+  place-items: center;
+}
+
+.lr-detalle {
+  position: relative;
+  width: min(900px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.1rem, 3vw, 1.8rem);
+  border-radius: 18px;
+  background: rgba(8, 8, 9, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 720px) {
+  .lr-detalle {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lr-detalle-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111113;
+}
+
+.lr-detalle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.lr-detalle-title {
+  margin: 0;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  line-height: 1.12;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.lr-detalle-precio {
+  margin: 0;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #ff6b61;
+}
+
+.lr-detalle-desc {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  white-space: pre-line;
+}
+
+.lr-detalle-cta-wrap {
+  margin-top: 0.4rem;
+}
+
+.lr-detalle-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  background: #ab0f08;
+  border: 1px solid #ab0f08;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.lr-detalle-cta:hover {
+  transform: translateY(-1px);
+  background: #c11710;
+}
+
+.lr-detalle-cta:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+.lr-detalle-cta:focus-visible {
+  outline: 2px solid rgba(255, 59, 48, 0.95);
+  outline-offset: 3px;
+}
+
+.lr-detalle-nota {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lr-detalle-volver {
+  margin-top: 0.6rem;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.lr-detalle-volver:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
