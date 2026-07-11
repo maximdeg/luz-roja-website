@@ -63,8 +63,28 @@ describe("buildMpPreference", () => {
     );
     expect(pref.back_urls.pending).toContain("/tienda/gracias?estado=pending");
     expect(pref.back_urls.failure).toContain("/tienda/gracias?estado=failure");
-    expect(pref.auto_return).toBe("approved");
     expect(pref.notification_url).toBe(config.notificationUrl);
+  });
+
+  it("sets auto_return only for a public https base url", () => {
+    const prod = producto();
+    const ped = pedido();
+    // Deployed site (public https): MP accepts auto_return.
+    expect(buildMpPreference(prod, ped, config).auto_return).toBe("approved");
+    // Local dev over http/localhost: MP rejects auto_return, so it's omitted.
+    expect(
+      buildMpPreference(prod, ped, {
+        ...config,
+        baseUrl: "http://localhost:3000"
+      }).auto_return
+    ).toBeUndefined();
+    // https but localhost is still not publicly reachable.
+    expect(
+      buildMpPreference(prod, ped, {
+        ...config,
+        baseUrl: "https://localhost:3000"
+      }).auto_return
+    ).toBeUndefined();
   });
 
   it("tolerates a trailing slash on the base url", () => {

@@ -33,7 +33,12 @@ export interface MpPreferenceRequest {
   }>;
   external_reference: string;
   back_urls: { success: string; pending: string; failure: string };
-  auto_return: "approved";
+  /**
+   * Auto-redirect back to the site after an approved payment. Mercado Pago
+   * rejects this when back_urls point at localhost, so it is only emitted for a
+   * public HTTPS base URL (i.e. the deployed site), not in local development.
+   */
+  auto_return?: "approved";
   notification_url: string;
   metadata: { pedido_id: string; producto_id: string };
 }
@@ -46,7 +51,7 @@ export function buildMpPreference(
   const base = config.baseUrl.replace(/\/+$/, "");
   const gracias = `${base}/tienda/gracias`;
 
-  return {
+  const request: MpPreferenceRequest = {
     items: [
       {
         id: producto.id,
@@ -63,8 +68,24 @@ export function buildMpPreference(
       pending: `${gracias}?estado=pending`,
       failure: `${gracias}?estado=failure`
     },
-    auto_return: "approved",
     notification_url: config.notificationUrl,
     metadata: { pedido_id: pedido.id, producto_id: producto.id }
   };
+
+  if (isPublicHttps(base)) {
+    request.auto_return = "approved";
+  }
+
+  return request;
+}
+
+/** True for an https:// URL whose host isn't localhost — where MP accepts auto_return. */
+function isPublicHttps(baseUrl: string): boolean {
+  try {
+    const { protocol, hostname } = new URL(baseUrl);
+    if (protocol !== "https:") return false;
+    return hostname !== "localhost" && hostname !== "127.0.0.1" && hostname !== "[::1]";
+  } catch {
+    return false;
+  }
 }

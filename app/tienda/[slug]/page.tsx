@@ -7,6 +7,8 @@ import { getCatalogRepository } from "../repositories";
 import { formatARS } from "../precio";
 import { portadaPublicUrl } from "../storage";
 import { isGratis } from "../free-download";
+import { iniciarCompra } from "../checkout";
+import { isTestMode } from "../mp-client";
 
 export const dynamic = "force-dynamic";
 
@@ -74,15 +76,31 @@ export default async function ProductoDetallePage({ params }: Params) {
               ) : (
                 <p className="lr-detalle-nota">La descarga estará disponible muy pronto.</p>
               )
-            ) : (
-              <>
-                <button className="lr-detalle-cta" type="button" disabled>
+            ) : producto.archivo ? (
+              <form className="lr-detalle-buy" action={iniciarCompra}>
+                <input type="hidden" name="slug" value={producto.slug} />
+                <label className="lr-detalle-buy-field">
+                  <span>Tu email (para enviarte la descarga)</span>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="vos@email.com"
+                    autoComplete="email"
+                  />
+                </label>
+                <button className="lr-detalle-cta" type="submit">
                   Comprar
                 </button>
                 <p className="lr-detalle-nota">
-                  El pago con Mercado Pago estará disponible muy pronto.
+                  Pago seguro con Mercado Pago.
+                  {isTestMode() ? " (Mercado Pago está en modo de prueba.)" : ""}
                 </p>
-              </>
+              </form>
+            ) : (
+              <p className="lr-detalle-nota">
+                Este producto todavía no está disponible para la compra.
+              </p>
             )}
           </div>
 
