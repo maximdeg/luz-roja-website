@@ -3,26 +3,41 @@
 /**
  * Starts a purchase: opens a pending pedido (capturing the price server-side,
  * never from the client), creates a Mercado Pago preference for it, records the
- * preference id, and sends the buyer to MP's hosted checkout. Free or
- * unpublished products can't reach here.
+ * preference id, and returns MP's hosted-checkout URL for the browser to
+ * navigate to. Free or unpublished products can't reach here.
+ *
+ * It returns the checkout URL instead of `redirect()`-ing to it on purpose:
+ * `redirect()` inside a Server Action is for INTERNAL navigations — pointing it
+ * at an external URL (MP's checkout) doesn't reliably move the browser, so the
+ * buyer would just bounce back to the product page. The client navigates with
+ * `window.location.href` instead.
  */
 
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { getCatalogRepository, getPedidoRepository } from "./repositories";
 import { buildMpPreference } from "./mp-preference";
 import { createPreference } from "./mp-client";
 import { isGratis } from "./free-download";
 
-export async function iniciarCompra(formData: FormData): Promise<void> {
-  const slug = String(formData.get("slug") ?? "");
-  const emailComprador = String(formData.get("email") ?? "").trim();
+export interface IniciarCompraResult {
+  /** MP hosted-checkout URL the client should navigate to. */
+  initPoint?: string;
+  /** User-facing error message when the purchase couldn't start. */
+  error?: string;
+}
+
+export async function iniciarCompra(input: {
+  slug: string;
+  email: string;
+}): Promise<IniciarCompraResult> {
+  const slug = String(input.slug ?? "");
+  const emailComprador = String(input.email ?? "").trim();
 
   const producto = await getCatalogRepository().getBySlug(slug);
   const comprable =
     producto && producto.publicado && !isGratis(producto) && producto.archivo !== null;
   if (!producto || !comprable) {
-    redirect(`/tienda/${slug}`);
+    return { error: "Este producto no está disponible para la compra." };
   }
 
   const pedidos = getPedidoRepository();
@@ -38,10 +53,15 @@ export async function iniciarCompra(formData: FormData): Promise<void> {
     notificationUrl: `${baseUrl}/api/mercadopago/webhook`
   });
 
-  const created = await createPreference(preference);
+  let created;
+  try {
+    created = await createPreference(preference);
+  } catch {
+    return { error: "No pudimos iniciar el pago con Mercado Pago. Probá de nuevo." };
+  }
   await pedidos.save({ ...pedido, mpPreferenceId: created.id });
 
-  redirect(created.initPoint);
+  return { initPoint: created.initPoint };
 }
 
 /** Derives the site's base URL from the incoming request headers. */

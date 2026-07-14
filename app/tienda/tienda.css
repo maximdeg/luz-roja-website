@@ -359,6 +359,10 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.lr-detalle-error {
+  color: #ff8a80;
+}
+
 .lr-detalle-buy {
   display: flex;
   flex-direction: column;

@@ -2,21 +2,27 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import "../tienda.css";
 import { getCatalogRepository } from "../repositories";
 import { formatARS } from "../precio";
 import { portadaPublicUrl } from "../storage";
 import { isGratis } from "../free-download";
-import { iniciarCompra } from "../checkout";
+import { ComprarForm } from "../comprar-form";
 import { isTestMode } from "../mp-client";
 
 export const dynamic = "force-dynamic";
 
 type Params = { params: Promise<{ slug: string }> };
 
+// generateMetadata and the page body both need the same product. Memoize the
+// lookup per request so the two of them share a single Supabase round-trip
+// instead of each firing their own.
+const loadProducto = cache((slug: string) => getCatalogRepository().getBySlug(slug));
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const producto = await getCatalogRepository().getBySlug(slug);
+  const producto = await loadProducto(slug);
   if (!producto || !producto.publicado) {
     return { title: "Producto no encontrado — Luz Roja Contenidos" };
   }
@@ -28,7 +34,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function ProductoDetallePage({ params }: Params) {
   const { slug } = await params;
-  const producto = await getCatalogRepository().getBySlug(slug);
+  const producto = await loadProducto(slug);
   if (!producto || !producto.publicado) notFound();
 
   const gratis = isGratis(producto);
@@ -77,26 +83,7 @@ export default async function ProductoDetallePage({ params }: Params) {
                 <p className="lr-detalle-nota">La descarga estará disponible muy pronto.</p>
               )
             ) : producto.archivo ? (
-              <form className="lr-detalle-buy" action={iniciarCompra}>
-                <input type="hidden" name="slug" value={producto.slug} />
-                <label className="lr-detalle-buy-field">
-                  <span>Tu email (para enviarte la descarga)</span>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="vos@email.com"
-                    autoComplete="email"
-                  />
-                </label>
-                <button className="lr-detalle-cta" type="submit">
-                  Comprar
-                </button>
-                <p className="lr-detalle-nota">
-                  Pago seguro con Mercado Pago.
-                  {isTestMode() ? " (Mercado Pago está en modo de prueba.)" : ""}
-                </p>
-              </form>
+              <ComprarForm slug={producto.slug} testMode={isTestMode()} />
             ) : (
               <p className="lr-detalle-nota">
                 Este producto todavía no está disponible para la compra.
