@@ -1,0 +1,296 @@
+.lr-admin {
+  min-height: 100svh;
+  background: #0b0b0c;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.lr-admin-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 8, 9, 0.9);
+}
+
+.lr-admin-brand {
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.lr-admin-user {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.lr-admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 1.1rem;
+}
+
+.lr-admin-nav a {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.lr-admin-nav a:hover {
+  color: #fff;
+}
+
+.lr-admin-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.lr-admin-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.lr-admin-head h1 {
+  margin: 0;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+/* --- Buttons / links ------------------------------------------------------ */
+.lr-admin-primary {
+  background: #ab0f08;
+  color: #fff;
+  border: 1px solid #ab0f08;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.lr-admin-primary:hover {
+  transform: translateY(-1px);
+  background: #c11710;
+}
+
+.lr-admin-primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+
+.lr-admin-btn {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.lr-admin-link {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.35rem 0.2rem;
+}
+
+.lr-admin-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.lr-admin-danger {
+  color: #ff6b61;
+}
+
+/* --- Product list --------------------------------------------------------- */
+.lr-admin-empty {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lr-admin-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.lr-admin-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lr-admin-row-main strong {
+  display: block;
+  font-size: 1.02rem;
+}
+
+.lr-admin-meta {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lr-admin-meta .is-live {
+  color: #4ade80;
+}
+
+.lr-admin-meta .is-draft {
+  color: #fbbf24;
+}
+
+.lr-admin-row-actions {
+  display: flex;
+  gap: 0.4rem 0.9rem;
+  align-items: center;
+}
+
+/* --- Form ----------------------------------------------------------------- */
+.lr-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 560px;
+}
+
+.lr-admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lr-admin-field > span {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.lr-admin-field input[type="text"],
+.lr-admin-field input[type="email"],
+.lr-admin-field input[type="password"],
+.lr-admin-field textarea {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font: inherit;
+}
+
+.lr-admin-field input:focus,
+.lr-admin-field textarea:focus {
+  outline: 2px solid rgba(255, 59, 48, 0.8);
+  outline-offset: 1px;
+}
+
+.lr-admin-field input:disabled {
+  opacity: 0.5;
+}
+
+.lr-admin-field input[type="file"] {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.lr-admin-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+}
+
+.lr-admin-error {
+  color: #ff6b61;
+  font-size: 0.82rem;
+  font-style: normal;
+}
+
+.lr-admin-alert {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(171, 15, 8, 0.18);
+  border: 1px solid rgba(171, 15, 8, 0.5);
+  color: #ffb4ae;
+  font-size: 0.9rem;
+}
+
+.lr-admin-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.lr-admin-actions button:not(.lr-admin-primary) {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- Login ---------------------------------------------------------------- */
+.lr-admin-login {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: #0b0b0c;
+}
+
+.lr-admin-login-card {
+  width: min(400px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.5rem, 5vw, 2.25rem);
+  border-radius: 16px;
+  background: rgba(12, 12, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.lr-admin-login-card h1 {
+  margin: 0;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  font-size: 1.4rem;
+}
+
+.lr-admin-kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: #ff3b30;
+  font-weight: 700;
+}
+
+.lr-admin-login-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.66);
+}

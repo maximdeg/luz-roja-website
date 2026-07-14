@@ -1,2 +1,11 @@
 node_modules
 .next
+tsconfig.tsbuildinfo
+
+.claude
+
+# Local secrets — never commit. Supabase service-role key, Mercado Pago token, etc.
+.env
+.env.local
+.env.*.local
+
