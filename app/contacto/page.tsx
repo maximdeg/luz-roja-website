@@ -2,6 +2,7 @@ import {
   ContactOrigenSelect,
   ContactServicioSelect
 } from "../components/contact-conditional-selects";
+import { ContactForm } from "../components/contact-form";
 import "../secondary.css";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ export default function ContactoPage() {
       </header>
 
       <section className="lr-form-section">
-        <form className="lr-form">
+        <ContactForm variant="contacto">
           <div className="lr-form-grid">
             <div className="lr-form-group">
               <label htmlFor="contacto-nombre">Nombre*</label>
@@ -148,7 +149,7 @@ export default function ContactoPage() {
           <button type="submit" className="lr-primary-button">
             Enviar formulario
           </button>
-        </form>
+        </ContactForm>
       </section>
     </div>
   );

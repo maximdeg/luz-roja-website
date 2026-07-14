@@ -13,6 +13,7 @@ import {
   ContactOrigenSelect,
   ContactServicioSelect
 } from "./components/contact-conditional-selects";
+import { ContactForm } from "./components/contact-form";
 import { TestimonialCarousel } from "./components/testimonial-carousel";
 import "./home.css";
 import "./secondary.css";
@@ -525,7 +526,7 @@ function ContactSection() {
         </div>
 
         <section className="lr-form-section lr-contact-right" aria-label="Formulario de contacto">
-          <form className="lr-form">
+          <ContactForm variant="home">
           <div className="lr-form-grid">
             <div className="lr-form-group">
               <label htmlFor="contacto-nombre-home">Nombre*</label>
@@ -594,7 +595,7 @@ function ContactSection() {
           <button type="submit" className="lr-primary-button">
             Enviar formulario
           </button>
-          </form>
+          </ContactForm>
         </section>
       </div>
     </section>
