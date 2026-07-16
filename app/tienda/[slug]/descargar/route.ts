@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 import { getCatalogRepository } from "../../repositories";
 import { resolveFreeDownload, downloadFileName } from "../../free-download";
 import { createArchivoSignedUrl } from "../../signed-url";
+import { tiendaAbierta } from "../../tienda-abierta";
 
 export const dynamic = "force-dynamic";
 
@@ -20,9 +21,14 @@ const MENSAJES: Record<string, string> = {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  // Closed store: previously shared links go quiet instead of serving files.
+  if (!tiendaAbierta()) {
+    return NextResponse.redirect(new URL("/tienda", request.url), { status: 302 });
+  }
+
   const { slug } = await params;
   const producto = await getCatalogRepository().getBySlug(slug);
   const resolution = resolveFreeDownload(producto);
