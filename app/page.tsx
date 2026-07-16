@@ -93,11 +93,11 @@ function HeroSection() {
       <div className="lr-hero-inner">
         <div className="lr-hero-content">
           <h1 className="lr-hero-headline">
-            Te ayudamos
+            Luz Roja Contenidos
             <br />
-            a ponerle
+            te ayuda a 
             <br />
-            orden, onda y
+            poner orden y
             <br />
             un{" "}
             <span className="lr-hero-headline-emphasis">
@@ -386,11 +386,9 @@ function ServicesSection() {
         <div className="lr-services-board-intro">
           <div className="lr-services-board-intro-body">
             <p className="lr-services-board-intro-para">
-              Ofrecemos distintos servicios que son independientes entre sí, pero que al
-              unirlos forman un{" "}
-              <em className="lr-services-board-intro-em">recorrido estratégico</em>{" "}
-              diseñado especialmente para hacer que la comunicación de tu marca deje
-              huella.
+              En Luz Roja Contenidos tenemos los servicios que necesita la comunicación de tu marca. Podes elegir
+              <em className="lr-services-board-intro-em">uno, dos, tres… los que quieras,</em>{" "}
+              en el momento en el que los necesites. Funcionan juntos pero también por separado y cada servicio puede resolverte más de un problema. 
             </p>
           </div>
           <Link href="/#contacto" className="lr-services-charlemos">
@@ -461,7 +459,7 @@ function NosotrasSection() {
   return (
     <section className="lr-nosotras" id="nosotras">
       <div className="lr-nosotras-inner">
-        <h2 className="lr-nosotras-heading">Nosotras.</h2>
+        <h2 className="lr-nosotras-heading">Se dice de nosotras</h2>
         <p className="lr-nosotras-lead">
           Cada una trae una historia propia. Una, fotógrafa, actriz y diseñadora, aporta la
           sensibilidad visual y la capacidad de capturar emociones; la otra, docente,
@@ -513,10 +511,13 @@ function ContactSection() {
         <div className="lr-contact-left">
           <div className="lr-page-header">
             <p className="lr-page-kicker">Trabajemos juntas</p>
-            <h2 className="lr-page-title">¿Querés saber más?</h2>
+            <h2 className="lr-page-title">¿Qué más querés saber?</h2>
             <p className="lr-page-subtitle">
-              Queremos trabajar con vos y encender la luz roja para tu marca. Escribinos y
-              te respondemos con toda la información para dar el siguiente paso.
+              Si llegaste hasta acá y no encontras lo que necesitas, escibinos!
+              <br />
+              Si ya sabes qué servicio querés, escribinos!
+              <br />
+              Si hay una pregunta que no te deja dormir de noche, escribinos! 
             </p>
             <p className="lr-page-subtitle">
               Para cualquier otra consulta también podés escribirnos directo a{" "}
