@@ -2,9 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  /* backdrop-filter makes this the containing block for the fixed-position
+     mobile nav, so the off-canvas nav (translateX(100%)) adds horizontal
+     page overflow unless this box clips it. clip (not hidden) keeps the
+     header from becoming a scroll container. */
+  overflow-x: clip;
   backdrop-filter: blur(12px);
   background-color: rgba(22, 22, 22, 0.96);
   background-color: color-mix(in srgb, var(--color-bg) 96%, transparent);
