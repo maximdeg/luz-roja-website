@@ -88,7 +88,7 @@ export function Header() {
           >
             Servicios
           </Link>
-          <Link href="/tienda">Tienda</Link>
+          <Link href="/tienda">Kioskito</Link>
           <Link
             href="/#nosotras"
             onClick={(event) => {
