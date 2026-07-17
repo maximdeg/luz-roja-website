@@ -467,7 +467,7 @@ function NosotrasSection() {
   return (
     <section className="lr-nosotras" id="nosotras">
       <div className="lr-nosotras-inner">
-        <h2 className="lr-nosotras-heading">Se dice de nosotras</h2>
+        <h2 className="lr-nosotras-heading">Nosotras.</h2>
         <p className="lr-nosotras-lead">
           Cada una trae una historia propia. Una, fotógrafa, actriz y diseñadora, aporta la
           sensibilidad visual y la capacidad de capturar emociones; la otra, docente,

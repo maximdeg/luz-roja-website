@@ -68,7 +68,7 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
 
   return (
     <div className="lr-testimonial-inner">
-      <p className="lr-testimonial-kicker">Lo que dicen quienes confían en nosotras</p>
+      <p className="lr-testimonial-kicker">Se dice de nosotras</p>
 
       <div
         className="lr-testimonial-carousel"
