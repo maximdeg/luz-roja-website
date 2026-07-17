@@ -18,12 +18,17 @@
 html {
   min-height: 100%;
   background-color: var(--color-bg);
+  /* Defensive guard: full-bleed sections (100vw + negative margins) must
+     never make the page pannable sideways. clip, not hidden — hidden would
+     turn body into a scroll container and break position: sticky. */
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  overflow-x: clip;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: inherit;
