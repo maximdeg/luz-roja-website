@@ -14,7 +14,10 @@ import {
   ContactServicioSelect
 } from "./components/contact-conditional-selects";
 import { ContactForm } from "./components/contact-form";
-import { TestimonialCarousel } from "./components/testimonial-carousel";
+import {
+  TestimonialCarousel,
+  type TestimonialItem
+} from "./components/testimonial-carousel";
 import "./home.css";
 import "./secondary.css";
 
@@ -491,6 +494,39 @@ function NosotrasSection() {
   );
 }
 
+const HOME_TESTIMONIALS: TestimonialItem[] = [
+  {
+    quote:
+      "Nos acompañaron en todo el proceso: desde ordenar ideas hasta el último Reel. La comunicación de nuestra marca por fin se siente nuestra y, al mismo tiempo, profesional.",
+    author: "Equipo fundador",
+    role: "Marca de bienestar"
+  },
+  {
+    quote:
+      "Por primera vez tenemos un calendario que sí usamos. El tono de voz quedó tan claro que hasta el equipo de ventas lo adoptó al toque.",
+    author: "Directora de marketing",
+    role: "Estudio de arquitectura"
+  },
+  {
+    quote:
+      "Pasamos de publicar «por publicar» a contar una historia coherente. Las métricas no fueron el único cambio: la gente nos escribe distinto.",
+    author: "Fundadora",
+    role: "Tienda de diseño local"
+  },
+  {
+    quote:
+      "Nos exigían rapidez y calidad al mismo tiempo. Ellas llevaron el ritmo, cuidaron el detalle y nos ahorraron reuniones infinitas.",
+    author: "Responsable de comunicación",
+    role: "ONG cultural"
+  },
+  {
+    quote:
+      "Lo que más valoramos es que entendieron nuestra marca en serio. Cada pieza se siente auténtica, no genérica.",
+    author: "Cofundadora",
+    role: "Marca de cosmética"
+  }
+];
+
 function TestimonialSection() {
   return (
     <section
@@ -501,7 +537,7 @@ function TestimonialSection() {
       <h2 id="testimonio-heading" className="sr-only">
         Testimonios
       </h2>
-      <TestimonialCarousel />
+      <TestimonialCarousel items={HOME_TESTIMONIALS} />
     </section>
   );
 }
