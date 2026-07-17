@@ -447,6 +447,23 @@
     transparent
   );
   background-size: 40px 40px;
+  animation: lrPreparateStripes 0.9s linear infinite;
+}
+
+@keyframes lrPreparateStripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    /* exactly one stripe period, so the loop has no visible jump */
+    background-position: 40px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-preparate-loader-stripes {
+    animation: none;
+  }
 }
 
 .lr-preparate-content {
