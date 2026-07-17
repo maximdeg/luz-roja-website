@@ -6,6 +6,8 @@ import { getCatalogRepository } from "./repositories";
 import { formatARS } from "./precio";
 import { portadaPublicUrl } from "./storage";
 import type { Producto } from "./producto";
+import { tiendaAbierta } from "./tienda-abierta";
+import { TiendaPreparate } from "./preparate";
 
 // Catalog changes whenever an admin publishes, so render per request.
 export const dynamic = "force-dynamic";
@@ -17,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default async function TiendaPage() {
+  if (!tiendaAbierta()) return <TiendaPreparate />;
+
   const productos = await getCatalogRepository().listPublished();
 
   if (productos.length === 0) {

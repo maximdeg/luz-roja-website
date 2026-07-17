@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import "../tienda.css";
 import { getCatalogRepository } from "../repositories";
@@ -10,6 +10,7 @@ import { portadaPublicUrl } from "../storage";
 import { isGratis } from "../free-download";
 import { ComprarForm } from "../comprar-form";
 import { isTestMode } from "../mp-client";
+import { tiendaAbierta } from "../tienda-abierta";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,9 @@ type Params = { params: Promise<{ slug: string }> };
 const loadProducto = cache((slug: string) => getCatalogRepository().getBySlug(slug));
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  // Closed store: reveal nothing about the product, not even its title.
+  if (!tiendaAbierta()) return { title: "Tienda — Luz Roja Contenidos" };
+
   const { slug } = await params;
   const producto = await loadProducto(slug);
   if (!producto || !producto.publicado) {
@@ -33,6 +37,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function ProductoDetallePage({ params }: Params) {
+  if (!tiendaAbierta()) redirect("/tienda");
+
   const { slug } = await params;
   const producto = await loadProducto(slug);
   if (!producto || !producto.publicado) notFound();

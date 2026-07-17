@@ -412,3 +412,78 @@
   text-decoration: underline;
 }
 
+/* --- PREPARATE launch curtain --------------------------------------------- */
+.lr-preparate {
+  place-items: center;
+}
+
+/* Giant indeterminate loading bar as the background motif: a full-bleed
+   band behind the title with a red gradient segment sweeping across it. */
+.lr-preparate-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: clamp(88px, 22vh, 190px);
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.lr-preparate-bar-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    rgba(171, 15, 8, 0) 0%,
+    rgba(171, 15, 8, 0.85) 35%,
+    #ff3b30 65%,
+    rgba(255, 59, 48, 0) 100%
+  );
+  animation: lrPreparateSweep 2.6s ease-in-out infinite;
+}
+
+@keyframes lrPreparateSweep {
+  from {
+    /* own-width percentages: start fully off the left edge... */
+    transform: translateX(-110%);
+  }
+  to {
+    /* ...and exit past the right edge (100% / 45% width ≈ 222% + margin) */
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-preparate-bar-fill {
+    animation: none;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(171, 15, 8, 0.45),
+      rgba(255, 59, 48, 0.45)
+    );
+  }
+}
+
+.lr-preparate-content {
+  position: relative;
+  text-align: center;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.lr-preparate-title {
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  letter-spacing: 0.12em;
+}
+
+.lr-preparate-subtitle {
+  font-size: clamp(1.05rem, 1.6vw + 0.7rem, 1.3rem);
+  color: rgba(255, 255, 255, 0.9);
+}
+

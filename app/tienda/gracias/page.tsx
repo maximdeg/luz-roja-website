@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import "../tienda.css";
 import { confirmarPago } from "../confirmar-pago";
+import { tiendaAbierta } from "../tienda-abierta";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +21,8 @@ type SearchParams = {
 };
 
 export default async function GraciasPage({ searchParams }: SearchParams) {
+  if (!tiendaAbierta()) redirect("/tienda");
+
   const sp = await searchParams;
   const paymentId = sp.payment_id;
 
