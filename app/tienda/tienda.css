@@ -417,58 +417,36 @@
   place-items: center;
 }
 
-/* Giant indeterminate loading bar as the background motif: a full-bleed
-   band behind the title with a red gradient segment sweeping across it. */
-.lr-preparate-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: clamp(88px, 22vh, 190px);
-  background: rgba(255, 255, 255, 0.04);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* Chunky retro "barber pole" loading bar: bordered black track, filled edge
+   to edge with hard-red diagonal stripes. */
+.lr-preparate-loader {
+  margin: clamp(1.4rem, 3vw, 2rem) auto 0;
+  width: min(520px, 100%);
+  height: 36px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #0a0a0b;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.lr-preparate-loader-stripes {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
   overflow: hidden;
-}
-
-.lr-preparate-bar-fill {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 45%;
-  background: linear-gradient(
-    90deg,
-    rgba(171, 15, 8, 0) 0%,
-    rgba(171, 15, 8, 0.85) 35%,
-    #ff3b30 65%,
-    rgba(255, 59, 48, 0) 100%
+  background-color: #ab0f08;
+  background-image: linear-gradient(
+    45deg,
+    #ff3b30 25%,
+    transparent 25%,
+    transparent 50%,
+    #ff3b30 50%,
+    #ff3b30 75%,
+    transparent 75%,
+    transparent
   );
-  animation: lrPreparateSweep 2.6s ease-in-out infinite;
-}
-
-@keyframes lrPreparateSweep {
-  from {
-    /* own-width percentages: start fully off the left edge... */
-    transform: translateX(-110%);
-  }
-  to {
-    /* ...and exit past the right edge (100% / 45% width ≈ 222% + margin) */
-    transform: translateX(250%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lr-preparate-bar-fill {
-    animation: none;
-    width: 100%;
-    background: linear-gradient(
-      90deg,
-      rgba(171, 15, 8, 0.45),
-      rgba(255, 59, 48, 0.45)
-    );
-  }
+  background-size: 40px 40px;
 }
 
 .lr-preparate-content {
