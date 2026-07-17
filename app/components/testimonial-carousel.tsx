@@ -2,44 +2,12 @@
 
 import { useCallback, useId, useState } from "react";
 
-interface TestimonialItem {
+/** Display shape only — the caller decides where testimonials come from. */
+export interface TestimonialItem {
   quote: string;
   author: string;
   role: string;
 }
-
-const TESTIMONIALS: TestimonialItem[] = [
-  {
-    quote:
-      "Nos acompañaron en todo el proceso: desde ordenar ideas hasta el último Reel. La comunicación de nuestra marca por fin se siente nuestra y, al mismo tiempo, profesional.",
-    author: "Equipo fundador",
-    role: "Marca de bienestar"
-  },
-  {
-    quote:
-      "Por primera vez tenemos un calendario que sí usamos. El tono de voz quedó tan claro que hasta el equipo de ventas lo adoptó al toque.",
-    author: "Directora de marketing",
-    role: "Estudio de arquitectura"
-  },
-  {
-    quote:
-      "Pasamos de publicar «por publicar» a contar una historia coherente. Las métricas no fueron el único cambio: la gente nos escribe distinto.",
-    author: "Fundadora",
-    role: "Tienda de diseño local"
-  },
-  {
-    quote:
-      "Nos exigían rapidez y calidad al mismo tiempo. Ellas llevaron el ritmo, cuidaron el detalle y nos ahorraron reuniones infinitas.",
-    author: "Responsable de comunicación",
-    role: "ONG cultural"
-  },
-  {
-    quote:
-      "Lo que más valoramos es que entendieron nuestra marca en serio. Cada pieza se siente auténtica, no genérica.",
-    author: "Cofundadora",
-    role: "Marca de cosmética"
-  }
-];
 
 function ChevronLeftIcon() {
   return (
@@ -85,9 +53,9 @@ function ChevronRightIcon() {
   );
 }
 
-export function TestimonialCarousel() {
+export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const total = TESTIMONIALS.length;
+  const total = items.length;
   const liveId = useId();
 
   const goPrev = useCallback(() => {
@@ -122,7 +90,7 @@ export function TestimonialCarousel() {
             className="lr-testimonial-track"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            {TESTIMONIALS.map((item, index) => (
+            {items.map((item, index) => (
               <article
                 key={index}
                 className="lr-testimonial-slide"

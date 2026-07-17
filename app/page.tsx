@@ -14,9 +14,17 @@ import {
   ContactServicioSelect
 } from "./components/contact-conditional-selects";
 import { ContactForm } from "./components/contact-form";
-import { TestimonialCarousel } from "./components/testimonial-carousel";
+import {
+  TestimonialCarousel,
+  type TestimonialItem
+} from "./components/testimonial-carousel";
+import { getTestimonioRepository } from "./testimonios/repositories";
 import "./home.css";
 import "./secondary.css";
+
+// Testimonials change whenever an admin edits them, so render per request
+// (same convention as /tienda).
+export const dynamic = "force-dynamic";
 
 const ANTONELA_PORTRAITS: StaticImageData[] = [
   antonelaPortrait1,
@@ -489,7 +497,20 @@ function NosotrasSection() {
   );
 }
 
-function TestimonialSection() {
+/**
+ * Loads the testimonials for the carousel. The home page must render even if
+ * Supabase is unreachable, so any load failure just hides the section.
+ */
+async function loadTestimonials(): Promise<TestimonialItem[]> {
+  try {
+    const testimonios = await getTestimonioRepository().listAll();
+    return testimonios.map((t) => ({ quote: t.cita, author: t.autor, role: t.rol }));
+  } catch {
+    return [];
+  }
+}
+
+function TestimonialSection({ items }: { items: TestimonialItem[] }) {
   return (
     <section
       className="lr-testimonial"
@@ -499,7 +520,7 @@ function TestimonialSection() {
       <h2 id="testimonio-heading" className="sr-only">
         Testimonios
       </h2>
-      <TestimonialCarousel />
+      <TestimonialCarousel items={items} />
     </section>
   );
 }
@@ -603,14 +624,16 @@ function ContactSection() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const testimonials = await loadTestimonials();
+
   return (
     <div className="lr-home">
       <HeroSection />
       <HeroTickerBar />
       <ServicesSection />
       <NosotrasSection />
-      <TestimonialSection />
+      {testimonials.length > 0 ? <TestimonialSection items={testimonials} /> : null}
       <ContactSection />
     </div>
   );

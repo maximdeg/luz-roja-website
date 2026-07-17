@@ -20,7 +20,7 @@ export default async function ProtectedAdminLayout({
         </div>
         <nav className="lr-admin-nav">
           <Link href="/admin">Productos</Link>
-          <Link href="/admin/nuevo">Nuevo</Link>
+          <Link href="/admin/testimonios">Testimonios</Link>
           <form action={cerrarSesion}>
             <button type="submit" className="lr-admin-link">
               Salir
