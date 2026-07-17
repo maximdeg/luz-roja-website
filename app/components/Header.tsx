@@ -2,16 +2,35 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import "./header.css";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
   const prefersReducedMotion =
     typeof window === "undefined"
       ? true
       : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /**
+   * Section links smooth-scroll only when already on the home page. Anywhere
+   * else the section isn't in the DOM, so the default navigation to /#seccion
+   * must run and land the visitor on the right home section.
+   */
+  function handleSectionClick(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    selector: string
+  ) {
+    setIsMenuOpen(false);
+    if (pathname !== "/") return;
+    event.preventDefault();
+    document
+      .querySelector(selector)
+      ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }
 
   useEffect(() => {
     function handleScroll() {
@@ -78,38 +97,20 @@ export function Header() {
           </Link>
           <Link
             href="/#servicios"
-            onClick={(event) => {
-              event.preventDefault();
-              setIsMenuOpen(false);
-              document
-                .querySelector("#servicios")
-                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-            }}
+            onClick={(event) => handleSectionClick(event, "#servicios")}
           >
             Servicios
           </Link>
           <Link href="/tienda">Kiosquito</Link>
           <Link
             href="/#nosotras"
-            onClick={(event) => {
-              event.preventDefault();
-              setIsMenuOpen(false);
-              document
-                .querySelector("#nosotras")
-                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-            }}
+            onClick={(event) => handleSectionClick(event, "#nosotras")}
           >
             Nosotras
           </Link>
           <Link
             href="/#contacto"
-            onClick={(event) => {
-              event.preventDefault();
-              setIsMenuOpen(false);
-              document
-                .querySelector("#contacto")
-                ?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-            }}
+            onClick={(event) => handleSectionClick(event, "#contacto")}
           >
             Contacto
           </Link>
