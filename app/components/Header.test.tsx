@@ -55,3 +55,29 @@ describe("Header on the home page", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   });
 });
+
+describe("Header on any other page", () => {
+  beforeEach(() => {
+    mocks.pathname = "/tienda";
+  });
+
+  it("lets a section link navigate normally instead of swallowing the click", () => {
+    render(<Header />);
+
+    const notPrevented = fireEvent.click(screen.getByRole("link", { name: "Servicios" }));
+
+    expect(notPrevented).toBe(true); // default navigation runs -> /#servicios
+    expect(scrollIntoViewMock()).not.toHaveBeenCalled();
+  });
+
+  it("still closes the mobile menu on click", () => {
+    render(<Header />);
+
+    const toggle = screen.getByRole("button", { name: "Abrir menú" });
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+    fireEvent.click(screen.getByRole("link", { name: "Nosotras" }));
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+  });
+});
