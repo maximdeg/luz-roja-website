@@ -395,7 +395,7 @@ function ServicesSection() {
           <div className="lr-services-board-intro-body">
             <p className="lr-services-board-intro-para">
               En Luz Roja Contenidos tenemos los servicios que necesita la comunicación de tu marca. Podes elegir
-              <em className="lr-services-board-intro-em">uno, dos, tres… los que quieras,</em>{" "}
+              uno, dos, tres… los que quieras, {" "}
               en el momento en el que los necesites. Funcionan juntos pero también por separado y cada servicio puede resolverte más de un problema. 
             </p>
           </div>
@@ -531,19 +531,19 @@ function ContactSection() {
       <div className="lr-contact-inner">
         <div className="lr-contact-left">
           <div className="lr-page-header">
-            <p className="lr-page-kicker">Trabajemos juntas</p>
+            {/* <p className="lr-page-kicker">Trabajemos juntas</p> */}
             <h2 className="lr-page-title">¿Qué más querés saber?</h2>
             <p className="lr-page-subtitle">
-              Si llegaste hasta acá y no encontras lo que necesitas, escibinos!
+              Si llegaste hasta acá y no encontras lo que necesitas, ¡escribinos!
               <br />
-              Si ya sabes qué servicio querés, escribinos!
+              Si ya sabes qué servicio querés, ¡escribinos!
               <br />
-              Si hay una pregunta que no te deja dormir de noche, escribinos! 
+              Si hay una pregunta que no te deja dormir de noche, ¡escribinos! 
             </p>
-            <p className="lr-page-subtitle">
+            {/* <p className="lr-page-subtitle">
               Para cualquier otra consulta también podés escribirnos directo a{" "}
               <strong>luzrojacontenidos@gmail.com</strong>.
-            </p>
+            </p> */}
           </div>
         </div>
 

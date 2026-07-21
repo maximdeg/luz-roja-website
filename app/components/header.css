@@ -5,7 +5,11 @@
   /* backdrop-filter makes this the containing block for the fixed-position
      mobile nav, so the off-canvas nav (translateX(100%)) adds horizontal
      page overflow unless this box clips it. clip (not hidden) keeps the
-     header from becoming a scroll container. */
+     header from becoming a scroll container.
+     Intentional guard — but note it can also clip the right-aligned hamburger
+     if the header bar is ever wider than the visual viewport (see the
+     FULL-BLEED HAZARD note in app/home.css). Keep the bar within the safe
+     width rather than removing this. */
   overflow-x: clip;
   backdrop-filter: blur(12px);
   background-color: rgba(22, 22, 22, 0.96);
@@ -147,6 +151,33 @@
 }
 
 @media (max-width: 768px) {
+  /* A backdrop-filter (like filter/transform) makes the header the containing
+     block for its position: fixed descendants, so on iOS the off-canvas nav is
+     trapped inside the short header bar and clipped by overflow-x: clip instead
+     of covering the viewport. Drop it on mobile — the header background is
+     already ~96% opaque, so the blur adds almost nothing here — which lets the
+     fixed nav resolve against the viewport and display correctly on iPhone. */
+  .lr-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* The off-canvas nav is portalled to <body>, so it and the header are now
+       siblings in the root stacking context. Keep the header (and its toggle /
+       close button) above the nav panel (z-index 30) and backdrop (20) so the
+       X is always visible and clickable while the menu is open. */
+    z-index: 40;
+  }
+
+  /* While the menu is open, body scroll is locked (overflow: hidden), which
+     un-sticks a position: sticky header and scrolls it off-screen when the menu
+     was opened from lower down the page. Pin it to the viewport for the open
+     state so the header and close button stay visible wherever the user is. */
+  .lr-header--menu-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
   .lr-header-inner {
     flex-direction: column;
     align-items: stretch;

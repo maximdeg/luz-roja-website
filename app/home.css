@@ -5,6 +5,17 @@
   background-color: var(--color-bg);
 }
 
+/* FULL-BLEED HAZARD: sections below break out to the viewport edge with
+   `width: 100vw` + `margin-inline: calc(50% - 50vw)`, and the site-wide
+   `overflow-x: clip` guards (app/globals.css on html/body) CLIP — rather than
+   reflow — anything wider than the viewport. So the breakout itself is fine,
+   but any inner content that overflows the viewport gets sheared off the right
+   edge instead of scrolling into view (this clipped the home contact card on
+   mobile — constrain inner content to fit; see the fix in the .lr-contact
+   media query below). Do not swap the guards for `overflow: hidden`: that would
+   make body a scroll container and break the sticky header. Note the header's
+   off-canvas nav sidesteps the clip differently — it is portalled to <body>
+   and pinned while open (see app/components/Header.tsx / header.css). */
 .lr-hero {
   position: relative;
   min-height: 100svh;
@@ -709,6 +720,28 @@
 @media (max-width: 860px) {
   .lr-contact-inner {
     grid-template-columns: 1fr;
+  }
+
+  /* Grid/flex children default to min-width: auto, so a form control's
+     intrinsic width can push the glass card wider than its column and, under
+     the overflow-x: clip guards, the card's right edge gets clipped off screen.
+     Let the column and card shrink, and cap every control to its container. */
+  .lr-contact-right,
+  .lr-contact-right .lr-form {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .lr-contact-right .lr-form-group {
+    min-width: 0;
+  }
+
+  .lr-contact-right .lr-form-group input,
+  .lr-contact-right .lr-form-group textarea,
+  .lr-contact-right .lr-form-group select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 

@@ -11,9 +11,18 @@ vi.mock("next/navigation", () => ({
 
 beforeEach(() => {
   mocks.pathname = "/";
-  // jsdom implements neither matchMedia nor scrollIntoView.
-  window.matchMedia = (() => ({
-    matches: true
+  // jsdom implements neither matchMedia nor scrollIntoView. Return a minimal
+  // MediaQueryList (matches: true) so the header renders in its mobile layout
+  // and its change-listener wiring has the methods it expects.
+  window.matchMedia = ((query: string) => ({
+    matches: true,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    onchange: null,
+    dispatchEvent: vi.fn()
   })) as unknown as typeof window.matchMedia;
   window.HTMLElement.prototype.scrollIntoView = vi.fn();
 });
@@ -53,6 +62,24 @@ describe("Header on the home page", () => {
 
     fireEvent.click(screen.getByRole("link", { name: "Contacto" }));
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("keeps the menu open while the user scrolls (scroll must not close it)", () => {
+    render(<Header />);
+
+    const toggle = screen.getByRole("button", { name: "Abrir menú" });
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+    // Scroll near the top: previously this force-closed the menu.
+    Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
+    fireEvent.scroll(window);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+    // Scroll further down: still open, wherever the user is on the page.
+    Object.defineProperty(window, "scrollY", { value: 1200, configurable: true });
+    fireEvent.scroll(window);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
   });
 });
 

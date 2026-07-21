@@ -20,7 +20,10 @@ html {
   background-color: var(--color-bg);
   /* Defensive guard: full-bleed sections (100vw + negative margins) must
      never make the page pannable sideways. clip, not hidden — hidden would
-     turn body into a scroll container and break position: sticky. */
+     turn body into a scroll container and break position: sticky. Because this
+     clip shears off (rather than reflows) any content wider than the viewport,
+     inner content must be constrained to fit — see the FULL-BLEED HAZARD note
+     in app/home.css. */
   overflow-x: clip;
 }
 
