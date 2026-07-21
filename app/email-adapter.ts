@@ -49,14 +49,3 @@ export function createGmailSender(): EmailSender {
     });
   };
 }
-
-/**
- * Sends an email. Throws if the send fails so callers can fall back. Pass a
- * `send` to bypass real SMTP (tests / the server action's injected sender).
- */
-export async function sendEmail(
-  email: OutgoingEmail,
-  send: EmailSender = createGmailSender()
-): Promise<void> {
-  await send(email);
-}
