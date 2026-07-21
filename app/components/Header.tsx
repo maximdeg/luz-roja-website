@@ -33,12 +33,11 @@ export function Header() {
   }
 
   useEffect(() => {
+    // Only drives the scrolled-state border styling. Menu-open state is
+    // deliberately NOT coupled to scroll: the menu must stay open wherever the
+    // user opened it, so scrolling never force-closes it.
     function handleScroll() {
-      const scrolled = window.scrollY > 400;
-      setIsScrolled(scrolled);
-      if (!scrolled) {
-        setIsMenuOpen(false);
-      }
+      setIsScrolled(window.scrollY > 400);
     }
 
     handleScroll();

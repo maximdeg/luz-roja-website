@@ -151,6 +151,17 @@
 }
 
 @media (max-width: 768px) {
+  /* A backdrop-filter (like filter/transform) makes the header the containing
+     block for its position: fixed descendants, so on iOS the off-canvas nav is
+     trapped inside the short header bar and clipped by overflow-x: clip instead
+     of covering the viewport. Drop it on mobile — the header background is
+     already ~96% opaque, so the blur adds almost nothing here — which lets the
+     fixed nav resolve against the viewport and display correctly on iPhone. */
+  .lr-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .lr-header-inner {
     flex-direction: column;
     align-items: stretch;

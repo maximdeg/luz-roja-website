@@ -54,6 +54,24 @@ describe("Header on the home page", () => {
     fireEvent.click(screen.getByRole("link", { name: "Contacto" }));
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   });
+
+  it("keeps the menu open while the user scrolls (scroll must not close it)", () => {
+    render(<Header />);
+
+    const toggle = screen.getByRole("button", { name: "Abrir menú" });
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+    // Scroll near the top: previously this force-closed the menu.
+    Object.defineProperty(window, "scrollY", { value: 0, configurable: true });
+    fireEvent.scroll(window);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+
+    // Scroll further down: still open, wherever the user is on the page.
+    Object.defineProperty(window, "scrollY", { value: 1200, configurable: true });
+    fireEvent.scroll(window);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+  });
 });
 
 describe("Header on any other page", () => {
