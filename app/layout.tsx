@@ -20,7 +20,12 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Luz Roja Contenidos",
   description:
-    "Encendemos la luz roja para contar historias que inspiran y construyen comunidades que perduran."
+    "Encendemos la luz roja para contar historias que inspiran y construyen comunidades que perduran.",
+  icons: {
+    icon: "/icons/favicon.png",
+    shortcut: "/icons/favicon.png",
+    apple: "/icons/favicon.png"
+  }
 };
 
 export default function RootLayout({

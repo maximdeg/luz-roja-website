@@ -99,6 +99,53 @@
   gap: 1.25rem;
 }
 
+/* Honeypot: taken out of flow and pushed off-screen so real users never see or
+   tab to it, while it stays a submittable field for bots to fill. Not
+   display:none / visibility:hidden — those would exclude it from FormData and
+   some bots skip them. */
+.lr-form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+/* The fields are wrapped in a <fieldset> so they can be disabled together while
+   submitting. Reset its default chrome and make it the flex column the form was,
+   so the field layout is unchanged. */
+.lr-form-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lr-form-fieldset:disabled {
+  opacity: 0.6;
+}
+
+/* Inline thank-you shown in place of the form after a successful send. */
+.lr-form-success {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lr-form-success-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
 .lr-form-group {
   display: flex;
   flex-direction: column;
