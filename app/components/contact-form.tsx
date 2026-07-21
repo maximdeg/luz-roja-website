@@ -8,6 +8,7 @@ import {
   type ContactFormVariant
 } from "../contact-form-validation";
 import { buildContactMailto } from "../contact-mailto";
+import { HONEYPOT_FIELD } from "../contact-action-core";
 
 /** Human labels for the error summary, keyed by field name. */
 const FIELD_LABELS: Record<string, string> = {
@@ -64,6 +65,21 @@ export function ContactForm({ variant, children, navigate }: ContactFormProps) {
 
   return (
     <form className="lr-form" onSubmit={handleSubmit} noValidate>
+      {/* Honeypot: hidden from real users, but bots fill it. The server action
+          silently drops any submission where it's non-empty. Kept off-screen
+          (not display:none) and out of the tab order / a11y tree. */}
+      <div className="lr-form-honeypot" aria-hidden="true">
+        <label htmlFor={`${variant}-${HONEYPOT_FIELD}`}>
+          No completar este campo
+        </label>
+        <input
+          id={`${variant}-${HONEYPOT_FIELD}`}
+          type="text"
+          name={HONEYPOT_FIELD}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       {errorEntries.length > 0 && (
         <div
           className="lr-form-errors"

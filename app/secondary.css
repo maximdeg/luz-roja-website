@@ -99,6 +99,23 @@
   gap: 1.25rem;
 }
 
+/* Honeypot: taken out of flow and pushed off-screen so real users never see or
+   tab to it, while it stays a submittable field for bots to fill. Not
+   display:none / visibility:hidden — those would exclude it from FormData and
+   some bots skip them. */
+.lr-form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
 .lr-form-group {
   display: flex;
   flex-direction: column;
