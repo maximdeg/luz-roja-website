@@ -7,31 +7,6 @@
   --color-gray-3: #d8d7d7;
   --color-text: #ffffff;
   --color-accent-soft: #ffc900;
-
-  /* Full-bleed width — the single source of truth for sections that break out
-     of their centered container to span the viewport edge-to-edge. Raw 100vw
-     ignores the scrollbar/viewport correction and, under the overflow-x: clip
-     guards, clips right-edge content on iOS (see the FULL-BLEED HAZARD note in
-     app/home.css). 100dvw tracks the *visual* viewport, so it never overshoots.
-     Fallback stays 100vw for engines without dynamic-viewport units. */
-  --lr-fullbleed-width: 100vw;
-}
-
-@supports (width: 100dvw) {
-  :root {
-    --lr-fullbleed-width: 100dvw;
-  }
-}
-
-/* Full-bleed helper: span the viewport edge-to-edge from inside a centered,
-   max-width container. Width and breakout margins both derive from
-   --lr-fullbleed-width so there is one place to change the sizing unit.
-   Not yet applied — sections migrate onto it one at a time. */
-.lr-fullbleed {
-  width: var(--lr-fullbleed-width);
-  max-width: var(--lr-fullbleed-width);
-  margin-left: calc(50% - var(--lr-fullbleed-width) / 2);
-  margin-right: calc(50% - var(--lr-fullbleed-width) / 2);
 }
 
 *,
@@ -45,10 +20,10 @@ html {
   background-color: var(--color-bg);
   /* Defensive guard: full-bleed sections (100vw + negative margins) must
      never make the page pannable sideways. clip, not hidden — hidden would
-     turn body into a scroll container and break position: sticky.
-     NOTE: on iOS this clip also removes right-edge content that 100vw pushes
-     past the visual viewport (see the FULL-BLEED HAZARD note in app/home.css).
-     Intentional — keep it; the fix is to stop sizing against raw 100vw. */
+     turn body into a scroll container and break position: sticky. Because this
+     clip shears off (rather than reflows) any content wider than the viewport,
+     inner content must be constrained to fit — see the FULL-BLEED HAZARD note
+     in app/home.css. */
   overflow-x: clip;
 }
 
