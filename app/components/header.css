@@ -160,6 +160,11 @@
   .lr-header {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    /* The off-canvas nav is portalled to <body>, so it and the header are now
+       siblings in the root stacking context. Keep the header (and its toggle /
+       close button) above the nav panel (z-index 30) and backdrop (20) so the
+       X is always visible and clickable while the menu is open. */
+    z-index: 40;
   }
 
   .lr-header-inner {

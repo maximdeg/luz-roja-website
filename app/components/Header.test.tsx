@@ -11,9 +11,18 @@ vi.mock("next/navigation", () => ({
 
 beforeEach(() => {
   mocks.pathname = "/";
-  // jsdom implements neither matchMedia nor scrollIntoView.
-  window.matchMedia = (() => ({
-    matches: true
+  // jsdom implements neither matchMedia nor scrollIntoView. Return a minimal
+  // MediaQueryList (matches: true) so the header renders in its mobile layout
+  // and its change-listener wiring has the methods it expects.
+  window.matchMedia = ((query: string) => ({
+    matches: true,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    onchange: null,
+    dispatchEvent: vi.fn()
   })) as unknown as typeof window.matchMedia;
   window.HTMLElement.prototype.scrollIntoView = vi.fn();
 });
