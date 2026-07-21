@@ -123,8 +123,20 @@ export function Header() {
     </>
   );
 
+  const headerClassName = [
+    "lr-header",
+    isScrolled && "lr-header--scrolled",
+    // While the menu is open we lock body scroll (overflow: hidden), which would
+    // otherwise un-stick the sticky header and scroll it out of view when opened
+    // from lower down the page. This modifier pins the header to the viewport so
+    // it (and the close button) stays put regardless of scroll position.
+    isMenuOpen && "lr-header--menu-open"
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <header className={isScrolled ? "lr-header lr-header--scrolled" : "lr-header"}>
+    <header className={headerClassName}>
       <div className="lr-header-inner">
         <div className="lr-header-bar">
           <div className="lr-header-logo">
