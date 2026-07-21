@@ -3,6 +3,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ContactForm } from "./contact-form";
+import type { ContactActionResult } from "../contact-action-core";
 
 afterEach(cleanup);
 
@@ -21,40 +22,73 @@ function HomeFields() {
   );
 }
 
+/** Fills every required home field with valid values. */
+async function fillValidHomeForm() {
+  await userEvent.type(screen.getByLabelText("Nombre"), "Ana");
+  await userEvent.type(screen.getByLabelText("Apellido"), "Pérez");
+  await userEvent.type(screen.getByLabelText("Email"), "ana@example.com");
+  await userEvent.type(screen.getByLabelText("Servicio"), "headshot-express");
+  await userEvent.type(screen.getByLabelText("Web"), "@ana.marca");
+  await userEvent.type(screen.getByLabelText("Origen"), "instagram");
+}
+
+function renderForm(submit: () => Promise<ContactActionResult>) {
+  return render(
+    <ContactForm variant="home" submit={submit}>
+      <HomeFields />
+    </ContactForm>
+  );
+}
+
 describe("ContactForm", () => {
   it("blocks submission and shows an error summary when required fields are empty", async () => {
-    const navigate = vi.fn();
-    render(
-      <ContactForm variant="home" navigate={navigate}>
-        <HomeFields />
-      </ContactForm>
-    );
+    const submit = vi.fn();
+    renderForm(submit);
 
     await userEvent.click(screen.getByRole("button", { name: /enviar/i }));
 
     expect(screen.queryByRole("alert")).not.toBeNull();
-    expect(navigate).not.toHaveBeenCalled();
+    expect(submit).not.toHaveBeenCalled();
   });
 
-  it("navigates to a prefilled mailto when the form is valid", async () => {
-    const navigate = vi.fn();
-    render(
-      <ContactForm variant="home" navigate={navigate}>
-        <HomeFields />
-      </ContactForm>
-    );
+  it("submits a valid form and shows the thank-you message on success", async () => {
+    const submit = vi.fn().mockResolvedValue({ status: "ok" });
+    renderForm(submit);
 
-    await userEvent.type(screen.getByLabelText("Nombre"), "Ana");
-    await userEvent.type(screen.getByLabelText("Apellido"), "Pérez");
-    await userEvent.type(screen.getByLabelText("Email"), "ana@example.com");
-    await userEvent.type(screen.getByLabelText("Servicio"), "headshot-express");
-    await userEvent.type(screen.getByLabelText("Web"), "@ana.marca");
-    await userEvent.type(screen.getByLabelText("Origen"), "instagram");
-
+    await fillValidHomeForm();
     await userEvent.click(screen.getByRole("button", { name: /enviar/i }));
 
-    expect(screen.queryByRole("alert")).toBeNull();
-    expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate.mock.calls[0][0]).toMatch(/^mailto:luzrojacontenidos@gmail\.com\?/);
+    expect(submit).toHaveBeenCalledTimes(1);
+    expect(screen.getByText(/gracias/i)).not.toBeNull();
+    expect(screen.getByText(/nos comunicaremos con vos/i)).not.toBeNull();
+    // The form (its submit button) is gone once submitted.
+    expect(screen.queryByRole("button", { name: /enviar/i })).toBeNull();
+  });
+
+  it("shows an error with a mailto fallback when the send fails", async () => {
+    const submit = vi.fn().mockResolvedValue({ status: "error" });
+    renderForm(submit);
+
+    await fillValidHomeForm();
+    await userEvent.click(screen.getByRole("button", { name: /enviar/i }));
+
+    expect(screen.queryByRole("alert")).not.toBeNull();
+    const fallback = screen.getByRole("link", { name: /correo electrónico/i });
+    expect(fallback.getAttribute("href")).toMatch(/^mailto:luzrojacontenidos@gmail\.com\?/);
+    // Form is still there so the user can retry.
+    expect(screen.queryByRole("button", { name: /enviar/i })).not.toBeNull();
+  });
+
+  it("re-shows the error summary when the server reports the submission invalid", async () => {
+    const submit = vi
+      .fn()
+      .mockResolvedValue({ status: "invalid", errors: { email: "Ingresá un email válido." } });
+    renderForm(submit);
+
+    await fillValidHomeForm();
+    await userEvent.click(screen.getByRole("button", { name: /enviar/i }));
+
+    expect(submit).toHaveBeenCalledTimes(1);
+    expect(screen.getByText(/ingresá un email válido/i)).not.toBeNull();
   });
 });

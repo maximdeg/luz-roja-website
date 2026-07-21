@@ -3,6 +3,7 @@ import {
   ContactServicioSelect
 } from "../components/contact-conditional-selects";
 import { ContactForm } from "../components/contact-form";
+import { submitContact } from "../contact-action";
 import "../secondary.css";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,7 @@ export default function ContactoPage() {
       </header>
 
       <section className="lr-form-section">
-        <ContactForm variant="contacto">
+        <ContactForm variant="contacto" submit={submitContact}>
           <div className="lr-form-grid">
             <div className="lr-form-group">
               <label htmlFor="contacto-nombre">Nombre*</label>

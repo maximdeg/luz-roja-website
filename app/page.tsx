@@ -14,6 +14,7 @@ import {
   ContactServicioSelect
 } from "./components/contact-conditional-selects";
 import { ContactForm } from "./components/contact-form";
+import { submitContact } from "./contact-action";
 import {
   TestimonialCarousel,
   type TestimonialItem
@@ -548,7 +549,7 @@ function ContactSection() {
         </div>
 
         <section className="lr-form-section lr-contact-right" aria-label="Formulario de contacto">
-          <ContactForm variant="home">
+          <ContactForm variant="home" submit={submitContact}>
           <div className="lr-form-grid">
             <div className="lr-form-group">
               <label htmlFor="contacto-nombre-home">Nombre*</label>
