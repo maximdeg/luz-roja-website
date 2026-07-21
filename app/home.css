@@ -720,6 +720,28 @@
   .lr-contact-inner {
     grid-template-columns: 1fr;
   }
+
+  /* Grid/flex children default to min-width: auto, so a form control's
+     intrinsic width can push the glass card wider than its column and, under
+     the overflow-x: clip guards, the card's right edge gets clipped off screen.
+     Let the column and card shrink, and cap every control to its container. */
+  .lr-contact-right,
+  .lr-contact-right .lr-form {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .lr-contact-right .lr-form-group {
+    min-width: 0;
+  }
+
+  .lr-contact-right .lr-form-group input,
+  .lr-contact-right .lr-form-group textarea,
+  .lr-contact-right .lr-form-group select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .lr-hero-phrases {
