@@ -19,9 +19,12 @@
   position: relative;
   min-height: 100svh;
   padding-top: var(--lr-hero-header-overlap, 72px);
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  /* Full-bleed via the shared helper var (100dvw) instead of raw 100vw — see
+     app/globals.css. Keeps the hero within the visual viewport on iOS. */
+  width: var(--lr-fullbleed-width);
+  max-width: var(--lr-fullbleed-width);
+  margin-left: calc(50% - var(--lr-fullbleed-width) / 2);
+  margin-right: calc(50% - var(--lr-fullbleed-width) / 2);
   overflow: hidden;
   display: flex;
   align-items: center;
