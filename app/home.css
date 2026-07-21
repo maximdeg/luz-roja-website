@@ -5,6 +5,16 @@
   background-color: var(--color-bg);
 }
 
+/* FULL-BLEED HAZARD (iOS): sections below break out to the viewport edge with
+   `width: 100vw` + `margin-inline: calc(50% - 50vw)`. `100vw` ignores the
+   scrollbar/viewport correction, so it can exceed the *visual* viewport. The
+   site-wide `overflow-x: clip` guards (see app/globals.css on html/body and
+   app/components/header.css on the header) then CLIP the excess at the right
+   edge on iOS Safari instead of reflowing it — which is why right-edge content
+   (the header hamburger, the home contact card) can vanish on iPhones. A shared
+   full-bleed helper using dynamic viewport units replaces raw 100vw in a
+   following commit; do not swap these guards for `overflow: hidden` (that would
+   make body a scroll container and break the sticky header). */
 .lr-hero {
   position: relative;
   min-height: 100svh;

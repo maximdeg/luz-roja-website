@@ -5,7 +5,11 @@
   /* backdrop-filter makes this the containing block for the fixed-position
      mobile nav, so the off-canvas nav (translateX(100%)) adds horizontal
      page overflow unless this box clips it. clip (not hidden) keeps the
-     header from becoming a scroll container. */
+     header from becoming a scroll container.
+     Intentional guard — but note it can also clip the right-aligned hamburger
+     if the header bar is ever wider than the visual viewport (see the
+     FULL-BLEED HAZARD note in app/home.css). Keep the bar within the safe
+     width rather than removing this. */
   overflow-x: clip;
   backdrop-filter: blur(12px);
   background-color: rgba(22, 22, 22, 0.96);
