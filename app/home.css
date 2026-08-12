@@ -923,6 +923,9 @@
   position: relative;
   perspective: 1100px;
   outline: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lr-services-flip-icon {
@@ -979,11 +982,13 @@
   }
 }
 
-.lr-services-flip:focus-within .lr-services-flip-inner {
+/* Tap/click/keyboard toggle set by ServiceFlipCard. Safari never focuses
+   non-input elements on tap, so this cannot rely on :focus-within. */
+.lr-services-flip[data-flipped="true"] .lr-services-flip-inner {
   transform: rotateY(180deg);
 }
 
-.lr-services-flip:focus-within .lr-services-flip-icon {
+.lr-services-flip[data-flipped="true"] .lr-services-flip-icon {
   opacity: 0;
 }
 
@@ -1013,14 +1018,10 @@
   transform: rotateY(180deg);
 }
 
+/* Reduced motion: flip instantly instead of hiding the back face entirely. */
 @media (prefers-reduced-motion: reduce) {
   .lr-services-flip-inner {
     transition: none;
-  }
-
-  .lr-services-flip:hover .lr-services-flip-inner,
-  .lr-services-flip:focus-within .lr-services-flip-inner {
-    transform: none;
   }
 }
 
@@ -1205,9 +1206,6 @@
   .lr-services-flip {
     min-height: clamp(160px, 36vw, 240px);
     height: auto;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
   }
 
   .lr-services-flip-inner {
