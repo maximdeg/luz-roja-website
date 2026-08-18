@@ -14,11 +14,13 @@ export function getSupabaseAdmin(): SupabaseClient {
   if (cached) return cached;
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey =
+    process.env.NEXT_PRIVATE_SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url || !serviceRoleKey) {
     throw new Error(
-      "Faltan variables de entorno de Supabase: definí NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY."
+      "Faltan variables de entorno de Supabase: definí NEXT_PRIVATE_SUPABASE_URL (o NEXT_PUBLIC_SUPABASE_URL) y NEXT_PRIVATE_SUPABASE_SERVICE_ROLE_KEY (o SUPABASE_SERVICE_ROLE_KEY)."
     );
   }
 
