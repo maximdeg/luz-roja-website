@@ -92,7 +92,9 @@ export function Header() {
       >
         Servicios
       </Link>
-      <Link href="/tienda">Kiosquito</Link>
+      <Link href="/tienda" onClick={() => setIsMenuOpen(false)}>
+        Kiosquito
+      </Link>
       <Link
         href="/#nosotras"
         onClick={(event) => handleSectionClick(event, "#nosotras")}
