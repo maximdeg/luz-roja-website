@@ -13,7 +13,7 @@ import { TiendaPreparate } from "./preparate";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Tienda — Luz Roja Contenidos",
+  title: "Kiosquito — Luz Roja Contenidos",
   description:
     "Recursos y contenidos de Luz Roja para que tu marca deje huella. Algunos son pagos, otros van de regalo."
 };
@@ -36,10 +36,10 @@ export default async function TiendaPage() {
 
       <section className="lr-tienda-catalogo">
         <header className="lr-tienda-head">
-          <p className="lr-tienda-kicker">TIENDA</p>
-          <h1 className="lr-tienda-title">Nuestros contenidos</h1>
+          {/* <p className="lr-tienda-kicker">KIOSQUITO</p> */}
+          <h1 className="lr-tienda-title">El Kiosquito de Luz Roja Contenidos</h1>
           <p className="lr-tienda-subtitle">
-            Recursos para que tu marca deje huella. Algunos son pagos, otros van de regalo.
+            Pasá, chusmeá y llevate lo que necesites.
           </p>
         </header>
 
@@ -95,7 +95,7 @@ function ProductoCard({ producto }: { producto: Producto }) {
 
 function TiendaProximamente() {
   return (
-    <main className="lr-tienda" aria-label="Tienda">
+    <main className="lr-tienda" aria-label="Kiosquito">
       <div className="lr-tienda-bg" aria-hidden>
         <Image src="/images/5.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
       </div>
@@ -103,7 +103,7 @@ function TiendaProximamente() {
       <div className="lr-tienda-overlay" aria-hidden />
 
       <section className="lr-tienda-card" aria-label="Próximamente">
-        <p className="lr-tienda-kicker">TIENDA</p>
+        <p className="lr-tienda-kicker">KIOSQUITO</p>
         <h1 className="lr-tienda-title">PRÓXIMAMENTE</h1>
         <p className="lr-tienda-subtitle">
           También estamos preparando cositas gratis para que tu marca deje huella.

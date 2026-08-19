@@ -35,11 +35,11 @@ export default async function GraciasPage({ searchParams }: SearchParams) {
     <main className="lr-tienda lr-tienda--detalle" aria-label="Gracias">
       <div className="lr-tienda-overlay" aria-hidden />
       <section className="lr-tienda-card">
-        <p className="lr-tienda-kicker">TIENDA</p>
+        <p className="lr-tienda-kicker">KIOSQUITO</p>
         {renderEstado(result)}
         <div className="lr-tienda-actions">
           <Link className="lr-tienda-home" href="/tienda">
-            Volver a la tienda
+            Volver al kiosquito
           </Link>
         </div>
       </section>

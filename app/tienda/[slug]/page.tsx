@@ -23,7 +23,7 @@ const loadProducto = cache((slug: string) => getCatalogRepository().getBySlug(sl
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   // Closed store: reveal nothing about the product, not even its title.
-  if (!tiendaAbierta()) return { title: "Tienda — Luz Roja Contenidos" };
+  if (!tiendaAbierta()) return { title: "Kiosquito — Luz Roja Contenidos" };
 
   const { slug } = await params;
   const producto = await loadProducto(slug);
@@ -72,7 +72,7 @@ export default async function ProductoDetallePage({ params }: Params) {
         </div>
 
         <div className="lr-detalle-info">
-          <p className="lr-tienda-kicker">TIENDA</p>
+          <p className="lr-tienda-kicker">KIOSQUITO</p>
           <h1 className="lr-detalle-title">{producto.titulo}</h1>
           <p className="lr-detalle-precio">
             {gratis ? "Descarga gratuita" : formatARS(producto.precioCentavos as number)}
@@ -82,9 +82,15 @@ export default async function ProductoDetallePage({ params }: Params) {
           <div className="lr-detalle-cta-wrap">
             {gratis ? (
               producto.archivo ? (
-                <a className="lr-detalle-cta" href={`/tienda/${producto.slug}/descargar`}>
-                  Descargar gratis
-                </a>
+                <>
+                  <p className="lr-detalle-compartir">
+                    Es gratis, pero si te sirve, nos ayuda un montón que lo compartas en
+                    redes etiquetando a <strong>@luzrojacontenidos</strong>
+                  </p>
+                  <a className="lr-detalle-cta" href={`/tienda/${producto.slug}/descargar`}>
+                    Descargar gratis
+                  </a>
+                </>
               ) : (
                 <p className="lr-detalle-nota">La descarga estará disponible muy pronto.</p>
               )
@@ -98,7 +104,7 @@ export default async function ProductoDetallePage({ params }: Params) {
           </div>
 
           <Link href="/tienda" className="lr-detalle-volver">
-            ← Volver a la tienda
+            ← Volver al kiosquito
           </Link>
         </div>
       </article>
