@@ -437,7 +437,7 @@
 
 .lr-testimonial {
   margin-top: clamp(2.5rem, 5vw, 4rem);
-  padding: clamp(2rem, 4vw, 3rem) 0 100px;
+  padding: clamp(2rem, 4vw, 3rem) 0 clamp(3rem, 9vw, 100px);
   background-color: var(--color-bg);
   color: var(--color-text);
   display: flex;
@@ -626,15 +626,31 @@
   }
 }
 
-@media (max-width: 380px) {
+/* Mobile: the chevrons cost ~7.5rem of a 375px viewport, so drop them and let
+   the quote use the full width. Swipe plus the dots below navigate instead.
+   (Swipe works at every width — only this visibility split is width-gated.) */
+@media (max-width: 519.98px) {
   .lr-testimonial-nav {
-    width: 2.85rem;
-    height: 2.85rem;
+    display: none;
   }
 
-  .lr-testimonial-chevron-svg {
-    width: 1.65rem;
-    height: 1.65rem;
+  .lr-testimonial-dots {
+    display: flex;
+  }
+
+  /* Read as background texture rather than competing with the quote. */
+  .lr-testimonial-carousel::before,
+  .lr-testimonial-carousel::after {
+    font-size: clamp(3rem, 26cqw, 6.5rem);
+    opacity: 0.28;
+  }
+
+  .lr-testimonial-inner {
+    padding-inline: 0.25rem;
+  }
+
+  .lr-testimonial-quote {
+    padding-inline: 0.35rem;
   }
 }
 
