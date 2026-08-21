@@ -154,6 +154,36 @@ describe("TestimonialCarousel", () => {
     expect(activeSlideText()).toContain("Autora Uno");
   });
 
+  it("jumps to a slide when its dot is clicked", async () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /ver testimonio 3 de 3/i }));
+
+    expect(activeSlideText()).toContain("Autora Tres");
+  });
+
+  it("marks the dot for the active slide as current", () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+    const dotFor = (position: number) =>
+      screen.getByRole("button", {
+        name: new RegExp(`ver testimonio ${position} de 3`, "i")
+      });
+
+    expect(dotFor(1).getAttribute("aria-current")).toBe("true");
+    expect(dotFor(2).getAttribute("aria-current")).toBeNull();
+
+    swipeTo(1);
+
+    expect(dotFor(1).getAttribute("aria-current")).toBeNull();
+    expect(dotFor(2).getAttribute("aria-current")).toBe("true");
+  });
+
+  it("renders one dot per testimonial", () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+
+    expect(screen.getAllByRole("button", { name: /^ver testimonio \d de 3$/i })).toHaveLength(3);
+  });
+
   it("renders nothing when there are no testimonials", () => {
     const { container } = render(<TestimonialCarousel items={[]} />);
 

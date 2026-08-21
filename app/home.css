@@ -574,9 +574,55 @@
   height: 2rem;
 }
 
+/* Position indicators. Hidden on desktop, where the chevrons do this job. */
+.lr-testimonial-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 0.15rem;
+  margin-top: clamp(1rem, 3vw, 1.35rem);
+}
+
+/* Visual dot stays small; padding grows the tap target to ~44px. */
+.lr-testimonial-dot {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0.9rem 0.55rem;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.lr-testimonial-dot::before {
+  content: "";
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.32);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.lr-testimonial-dot.is-active::before {
+  background-color: var(--color-accent);
+  transform: scale(1.25);
+}
+
+.lr-testimonial-dot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lr-testimonial-viewport {
     scroll-behavior: auto;
+  }
+
+  .lr-testimonial-dot::before {
+    transition: none;
   }
 }
 

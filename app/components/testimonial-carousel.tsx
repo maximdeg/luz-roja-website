@@ -132,6 +132,23 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
       </div>
 
       {isNavigable && (
+        <div className="lr-testimonial-dots">
+          {items.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={`lr-testimonial-dot${
+                index === activeIndex ? " is-active" : ""
+              }`}
+              onClick={() => goTo(index)}
+              aria-label={`Ver testimonio ${index + 1} de ${total}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+            />
+          ))}
+        </div>
+      )}
+
+      {isNavigable && (
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           Testimonio {activeIndex + 1} de {total}
         </p>
