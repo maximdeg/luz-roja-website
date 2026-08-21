@@ -11,6 +11,17 @@ const ITEMS: TestimonialItem[] = [
   { quote: "Segunda cita de prueba.", author: "Autora Dos", role: "Rol Dos" }
 ];
 
+/** Three items, so forward and backward wrap-around are distinguishable. */
+const THREE_ITEMS: TestimonialItem[] = [
+  ...ITEMS,
+  { quote: "Tercera cita de prueba.", author: "Autora Tres", role: "Rol Tres" }
+];
+
+/** The polite live region that announces the active position. */
+function liveRegionText(): string {
+  return document.querySelector("[aria-live='polite']")?.textContent ?? "";
+}
+
 /** The slide currently exposed to assistive tech (not aria-hidden). */
 function activeSlideText(): string {
   const slide = document.querySelector(
@@ -44,5 +55,45 @@ describe("TestimonialCarousel", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /anterior/i }));
     expect(activeSlideText()).toContain("Autora Dos");
+  });
+
+  it("renders every quote regardless of which slide is active", async () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /siguiente/i }));
+
+    for (const item of THREE_ITEMS) {
+      expect(screen.getByText(item.quote)).toBeDefined();
+    }
+  });
+
+  it("wraps forward past the last slide back to the first", async () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+    const next = screen.getByRole("button", { name: /siguiente/i });
+
+    await userEvent.click(next);
+    expect(activeSlideText()).toContain("Autora Dos");
+    await userEvent.click(next);
+    expect(activeSlideText()).toContain("Autora Tres");
+    await userEvent.click(next);
+    expect(activeSlideText()).toContain("Autora Uno");
+  });
+
+  it("wraps backward past the first slide to the last", async () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+    const prev = screen.getByRole("button", { name: /anterior/i });
+
+    await userEvent.click(prev);
+    expect(activeSlideText()).toContain("Autora Tres");
+    await userEvent.click(prev);
+    expect(activeSlideText()).toContain("Autora Dos");
+  });
+
+  it("announces the active position for screen readers", async () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+
+    expect(liveRegionText()).toBe("Testimonio 1 de 3");
+    await userEvent.click(screen.getByRole("button", { name: /siguiente/i }));
+    expect(liveRegionText()).toBe("Testimonio 2 de 3");
   });
 });
