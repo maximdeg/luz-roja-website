@@ -60,6 +60,17 @@
   text-shadow: 0 18px 50px rgba(0, 0, 0,  0.65);
 }
 
+/* Line break inside titles: mobile + tablet only */
+.lr-break-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .lr-break-mobile {
+    display: inline;
+  }
+}
+
 .lr-tienda-subtitle {
   margin: 0.9rem auto 0;
   max-width: 52ch;

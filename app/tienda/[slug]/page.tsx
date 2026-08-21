@@ -49,7 +49,7 @@ export default async function ProductoDetallePage({ params }: Params) {
   return (
     <main className="lr-tienda lr-tienda--detalle" aria-label={producto.titulo}>
       <div className="lr-tienda-bg" aria-hidden>
-        <Image src="/images/5.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <Image src="/images/kiosquito2.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
       </div>
       <div className="lr-tienda-overlay" aria-hidden />
 

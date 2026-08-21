@@ -691,6 +691,18 @@
   text-align: left;
 }
 
+.lr-contact-left .lr-page-title {
+  font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+}
+
+/* Match the body copy size used elsewhere on the page (.lr-nosotras-lead) */
+.lr-contact-left .lr-page-subtitle {
+  font-size: clamp(1rem, 1.15vw + 0.82rem, 1.2rem);
+  line-height: 1.65;
+}
+
 .lr-contact-right {
   margin: 0;
   max-width: none;
@@ -866,7 +878,7 @@
   font-size: clamp(1.5rem, 2.1vw + 1.25rem, 1.75rem);
   line-height: 1.42;
   color: rgba(255, 255, 255, 0.92);
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .lr-services-board-intro-em {

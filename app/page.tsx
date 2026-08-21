@@ -373,11 +373,7 @@ function ContactSection() {
             {/* <p className="lr-page-kicker">Trabajemos juntas</p> */}
             <h2 className="lr-page-title">¿Qué más querés saber?</h2>
             <p className="lr-page-subtitle">
-              Si llegaste hasta acá y no encontras lo que necesitas, ¡escribinos!
-              <br />
-              Si ya sabes qué servicio querés, ¡escribinos!
-              <br />
-              Si hay una pregunta que no te deja dormir de noche, ¡escribinos! 
+              Si llegaste hasta acá y no encontras lo que necesitas, ¡escribinos! Si ya sabes qué servicio querés, ¡escribinos! Si hay una pregunta que no te deja dormir de noche, ¡escribinos! 
             </p>
             {/* <p className="lr-page-subtitle">
               Para cualquier otra consulta también podés escribirnos directo a{" "}

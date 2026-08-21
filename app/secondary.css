@@ -24,9 +24,11 @@
 }
 
 .lr-page-subtitle {
+  padding-top: 0.5rem;
   margin: 0;
   font-size: 0.95rem;
   color: var(--color-gray-3);
+  text-align: justify;
 }
 
 .lr-grid-section {

@@ -30,14 +30,16 @@ export default async function TiendaPage() {
   return (
     <main className="lr-tienda lr-tienda--catalogo" aria-label="Tienda">
       <div className="lr-tienda-bg" aria-hidden>
-        <Image src="/images/5.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <Image src="/images/kiosquito2.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
       </div>
       <div className="lr-tienda-overlay" aria-hidden />
 
       <section className="lr-tienda-catalogo">
         <header className="lr-tienda-head">
           {/* <p className="lr-tienda-kicker">KIOSQUITO</p> */}
-          <h1 className="lr-tienda-title">El Kiosquito de Luz Roja Contenidos</h1>
+          <h1 className="lr-tienda-title">
+            El Kiosquito de<br className="lr-break-mobile" /> Luz Roja Contenidos
+          </h1>
           <p className="lr-tienda-subtitle">
             Pasá, chusmeá y llevate lo que necesites.
           </p>
@@ -97,7 +99,7 @@ function TiendaProximamente() {
   return (
     <main className="lr-tienda" aria-label="Kiosquito">
       <div className="lr-tienda-bg" aria-hidden>
-        <Image src="/images/5.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <Image src="/images/kiosquito2.png" alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
       </div>
 
       <div className="lr-tienda-overlay" aria-hidden />
