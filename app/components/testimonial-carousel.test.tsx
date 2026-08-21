@@ -1,10 +1,64 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
+import { render, screen, cleanup, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TestimonialCarousel, type TestimonialItem } from "./testimonial-carousel";
 
-afterEach(cleanup);
+/**
+ * jsdom implements neither scrolling nor scroll-snap, so the carousel's scroll
+ * container is simulated: a fixed clientWidth gives slides a width, and
+ * scrollTo records the target and fires the scroll event a browser would.
+ * These tests therefore verify the wiring, not that snapping physically works.
+ */
+const SLIDE_WIDTH = 500;
+
+beforeEach(() => {
+  Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+    configurable: true,
+    get(this: HTMLElement) {
+      return this.classList?.contains("lr-testimonial-viewport") ? SLIDE_WIDTH : 0;
+    }
+  });
+
+  HTMLElement.prototype.scrollTo = function (
+    this: HTMLElement,
+    options?: ScrollToOptions | number
+  ) {
+    const left = typeof options === "number" ? options : (options?.left ?? 0);
+    Object.defineProperty(this, "scrollLeft", {
+      configurable: true,
+      writable: true,
+      value: left
+    });
+    this.dispatchEvent(new Event("scroll"));
+  } as typeof HTMLElement.prototype.scrollTo;
+
+  // The hook coalesces scroll events through rAF; run them synchronously.
+  vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    cb(0);
+    return 1;
+  });
+  vi.stubGlobal("cancelAnimationFrame", () => {});
+});
+
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
+
+/** Simulates a touch swipe landing on the given slide. */
+function swipeTo(index: number): void {
+  const viewport = document.querySelector(".lr-testimonial-viewport");
+  if (!viewport) throw new Error("carousel viewport not rendered");
+  Object.defineProperty(viewport, "scrollLeft", {
+    configurable: true,
+    writable: true,
+    value: index * SLIDE_WIDTH
+  });
+  act(() => {
+    viewport.dispatchEvent(new Event("scroll"));
+  });
+}
 
 const ITEMS: TestimonialItem[] = [
   { quote: "Primera cita de prueba.", author: "Autora Uno", role: "Rol Uno" },
@@ -87,6 +141,17 @@ describe("TestimonialCarousel", () => {
     expect(activeSlideText()).toContain("Autora Tres");
     await userEvent.click(prev);
     expect(activeSlideText()).toContain("Autora Dos");
+  });
+
+  it("follows the scroll position when the viewport is swiped", () => {
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+
+    swipeTo(2);
+    expect(activeSlideText()).toContain("Autora Tres");
+    expect(liveRegionText()).toBe("Testimonio 3 de 3");
+
+    swipeTo(0);
+    expect(activeSlideText()).toContain("Autora Uno");
   });
 
   it("renders nothing when there are no testimonials", () => {

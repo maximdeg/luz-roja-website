@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId } from "react";
+import { useCarouselScroll } from "./use-carousel-scroll";
 
 /** Display shape only — the caller decides where testimonials come from. */
 export interface TestimonialItem {
@@ -54,20 +55,20 @@ function ChevronRightIcon() {
 }
 
 export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
   const total = items.length;
   const liveId = useId();
   // One testimonial needs no navigation; zero would make the wrap-around
   // arithmetic below divide by zero.
   const isNavigable = total > 1;
+  const { viewportRef, activeIndex, goTo } = useCarouselScroll(total);
 
   const goPrev = useCallback(() => {
-    setActiveIndex((index) => (index - 1 + total) % total);
-  }, [total]);
+    goTo((activeIndex - 1 + total) % total);
+  }, [goTo, activeIndex, total]);
 
   const goNext = useCallback(() => {
-    setActiveIndex((index) => (index + 1) % total);
-  }, [total]);
+    goTo((activeIndex + 1) % total);
+  }, [goTo, activeIndex, total]);
 
   if (total === 0) return null;
 
@@ -92,11 +93,8 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
           </button>
         )}
 
-        <div className="lr-testimonial-viewport">
-          <div
-            className="lr-testimonial-track"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-          >
+        <div className="lr-testimonial-viewport" ref={viewportRef}>
+          <div className="lr-testimonial-track">
             {items.map((item, index) => (
               <article
                 key={index}

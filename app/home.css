@@ -461,21 +461,35 @@
   align-items: stretch;
   gap: clamp(0.35rem, 2vw, 0.85rem);
   width: 100%;
-}
-
-.lr-testimonial-viewport {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
+  /* Anchors the decorative quotes below, and sizes them via cqw. */
   position: relative;
   isolation: isolate;
   container-type: inline-size;
   container-name: lr-testimonial;
 }
 
-/* Decorative quotes: fixed to viewport; only .lr-testimonial-track scrolls above */
-.lr-testimonial-viewport::before,
-.lr-testimonial-viewport::after {
+.lr-testimonial-viewport {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  /* Scroll-snap drives navigation: native touch swipe on mobile, and the
+     desktop chevrons scroll this same container. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+.lr-testimonial-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Decorative quotes: anchored to the non-scrolling carousel wrapper so they
+   stay put while the viewport scroll-snaps beneath them. */
+.lr-testimonial-carousel::before,
+.lr-testimonial-carousel::after {
   position: absolute;
   z-index: 0;
   font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
@@ -490,19 +504,19 @@
 }
 
 @supports (width: 1cqw) {
-  .lr-testimonial-viewport::before,
-  .lr-testimonial-viewport::after {
+  .lr-testimonial-carousel::before,
+  .lr-testimonial-carousel::after {
     font-size: clamp(4.5rem, min(52cqw, 22rem), 14rem);
   }
 }
 
-.lr-testimonial-viewport::before {
+.lr-testimonial-carousel::before {
   content: "\201C";
   left: clamp(-0.15rem, -1vw, 0.25rem);
   top: clamp(0.15rem, 1vw, 0.65rem);
 }
 
-.lr-testimonial-viewport::after {
+.lr-testimonial-carousel::after {
   content: "\201D";
   right: clamp(-0.15rem, -1vw, 0.25rem);
   bottom: clamp(0.5rem, 2vw, 1.25rem);
@@ -513,7 +527,6 @@
   z-index: 1;
   display: flex;
   width: 100%;
-  transition: transform 0.45s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 
 .lr-testimonial-slide {
@@ -521,6 +534,8 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 .lr-testimonial-nav {
@@ -560,8 +575,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lr-testimonial-track {
-    transition: none;
+  .lr-testimonial-viewport {
+    scroll-behavior: auto;
   }
 }
 
