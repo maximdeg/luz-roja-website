@@ -57,6 +57,9 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const total = items.length;
   const liveId = useId();
+  // One testimonial needs no navigation; zero would make the wrap-around
+  // arithmetic below divide by zero.
+  const isNavigable = total > 1;
 
   const goPrev = useCallback(() => {
     setActiveIndex((index) => (index - 1 + total) % total);
@@ -65,6 +68,8 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
   const goNext = useCallback(() => {
     setActiveIndex((index) => (index + 1) % total);
   }, [total]);
+
+  if (total === 0) return null;
 
   return (
     <div className="lr-testimonial-inner">
@@ -76,14 +81,16 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
         aria-roledescription="carrusel"
         aria-label="Testimonios de clientes"
       >
-        <button
-          type="button"
-          className="lr-testimonial-nav lr-testimonial-nav--prev"
-          onClick={goPrev}
-          aria-label="Ver testimonio anterior"
-        >
-          <ChevronLeftIcon />
-        </button>
+        {isNavigable && (
+          <button
+            type="button"
+            className="lr-testimonial-nav lr-testimonial-nav--prev"
+            onClick={goPrev}
+            aria-label="Ver testimonio anterior"
+          >
+            <ChevronLeftIcon />
+          </button>
+        )}
 
         <div className="lr-testimonial-viewport">
           <div
@@ -114,19 +121,23 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="lr-testimonial-nav lr-testimonial-nav--next"
-          onClick={goNext}
-          aria-label="Ver testimonio siguiente"
-        >
-          <ChevronRightIcon />
-        </button>
+        {isNavigable && (
+          <button
+            type="button"
+            className="lr-testimonial-nav lr-testimonial-nav--next"
+            onClick={goNext}
+            aria-label="Ver testimonio siguiente"
+          >
+            <ChevronRightIcon />
+          </button>
+        )}
       </div>
 
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
-        Testimonio {activeIndex + 1} de {total}
-      </p>
+      {isNavigable && (
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          Testimonio {activeIndex + 1} de {total}
+        </p>
+      )}
     </div>
   );
 }

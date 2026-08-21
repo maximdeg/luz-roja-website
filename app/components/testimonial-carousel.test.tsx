@@ -89,6 +89,20 @@ describe("TestimonialCarousel", () => {
     expect(activeSlideText()).toContain("Autora Dos");
   });
 
+  it("renders nothing when there are no testimonials", () => {
+    const { container } = render(<TestimonialCarousel items={[]} />);
+
+    expect(container.textContent).toBe("");
+  });
+
+  it("shows a single testimonial without navigation affordances", () => {
+    render(<TestimonialCarousel items={[ITEMS[0]]} />);
+
+    expect(screen.getByText("Primera cita de prueba.")).toBeDefined();
+    expect(screen.queryByRole("button", { name: /siguiente/i })).toBeNull();
+    expect(screen.queryByRole("button", { name: /anterior/i })).toBeNull();
+  });
+
   it("announces the active position for screen readers", async () => {
     render(<TestimonialCarousel items={THREE_ITEMS} />);
 
