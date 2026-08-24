@@ -638,11 +638,41 @@
     display: flex;
   }
 
-  /* Read as background texture rather than competing with the quote. */
-  .lr-testimonial-carousel::before,
-  .lr-testimonial-carousel::after {
+  /* Opening quote reads as background texture rather than competing. */
+  .lr-testimonial-carousel::before {
     font-size: clamp(3rem, 26cqw, 6.5rem);
     opacity: 0.28;
+  }
+
+  /* The closing quote is pinned to the wrapper, whose height comes from the
+     TALLEST slide — so on a short testimonial it stranded itself in empty
+     space below the author and never moved when swiping. On mobile it instead
+     trails the quote text inline, so it follows each slide's own length. */
+  .lr-testimonial-carousel::after {
+    content: none;
+  }
+
+  .lr-testimonial-quote p::after {
+    /* Fallback first: browsers without content alt-text support ignore the
+       second declaration and still render the mark. */
+    content: "\201D";
+    /* Purely decorative: the alt text keeps it out of the accessible name. */
+    content: "\201D" / "";
+    display: inline;
+    margin-left: 0.06em;
+    /* Sized in em so it tracks the quote text, and pulled down onto the
+       baseline; vertical-align would push the line box open. */
+    font-size: 2.1em;
+    line-height: 0;
+    position: relative;
+    top: 0.32em;
+    font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
+      BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    /* Upright: the quote text is italic and the mark should not slant. */
+    font-style: normal;
+    color: var(--color-accent);
+    opacity: 0.55;
   }
 
   .lr-testimonial-inner {
