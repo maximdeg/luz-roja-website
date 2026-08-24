@@ -669,7 +669,9 @@
     font-size: clamp(3rem, 19vw, 6.5rem);
     line-height: 0;
     position: relative;
-    top: 0.22em;
+    /* margin-top would be ignored on an inline box; the extra 10px of drop
+       goes through the same offset that seats the glyph on the baseline. */
+    top: calc(0.22em + 10px);
     font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
       BlinkMacSystemFont, sans-serif;
     font-weight: 700;
