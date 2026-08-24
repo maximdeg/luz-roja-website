@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId } from "react";
+import { useCarouselScroll } from "./use-carousel-scroll";
 
 /** Display shape only — the caller decides where testimonials come from. */
 export interface TestimonialItem {
@@ -54,17 +55,22 @@ function ChevronRightIcon() {
 }
 
 export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
   const total = items.length;
   const liveId = useId();
+  // One testimonial needs no navigation; zero would make the wrap-around
+  // arithmetic below divide by zero.
+  const isNavigable = total > 1;
+  const { viewportRef, activeIndex, goTo, activeHeight } = useCarouselScroll(total);
 
   const goPrev = useCallback(() => {
-    setActiveIndex((index) => (index - 1 + total) % total);
-  }, [total]);
+    goTo((activeIndex - 1 + total) % total);
+  }, [goTo, activeIndex, total]);
 
   const goNext = useCallback(() => {
-    setActiveIndex((index) => (index + 1) % total);
-  }, [total]);
+    goTo((activeIndex + 1) % total);
+  }, [goTo, activeIndex, total]);
+
+  if (total === 0) return null;
 
   return (
     <div className="lr-testimonial-inner">
@@ -76,24 +82,34 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
         aria-roledescription="carrusel"
         aria-label="Testimonios de clientes"
       >
-        <button
-          type="button"
-          className="lr-testimonial-nav lr-testimonial-nav--prev"
-          onClick={goPrev}
-          aria-label="Ver testimonio anterior"
-        >
-          <ChevronLeftIcon />
-        </button>
-
-        <div className="lr-testimonial-viewport">
-          <div
-            className="lr-testimonial-track"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+        {isNavigable && (
+          <button
+            type="button"
+            className="lr-testimonial-nav lr-testimonial-nav--prev"
+            onClick={goPrev}
+            aria-label="Ver testimonio anterior"
           >
+            <ChevronLeftIcon />
+          </button>
+        )}
+
+        <div
+          className="lr-testimonial-viewport"
+          ref={viewportRef}
+          // Consumed only below the mobile breakpoint; desktop ignores it and
+          // keeps the natural stretched height.
+          style={
+            activeHeight
+              ? ({ "--lr-testimonial-h": `${activeHeight}px` } as React.CSSProperties)
+              : undefined
+          }
+        >
+          <div className="lr-testimonial-track">
             {items.map((item, index) => (
               <article
                 key={index}
                 className="lr-testimonial-slide"
+                data-slide-index={index}
                 aria-hidden={index !== activeIndex}
                 aria-labelledby={`${liveId}-heading-${index}`}
                 role="group"
@@ -114,19 +130,40 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="lr-testimonial-nav lr-testimonial-nav--next"
-          onClick={goNext}
-          aria-label="Ver testimonio siguiente"
-        >
-          <ChevronRightIcon />
-        </button>
+        {isNavigable && (
+          <button
+            type="button"
+            className="lr-testimonial-nav lr-testimonial-nav--next"
+            onClick={goNext}
+            aria-label="Ver testimonio siguiente"
+          >
+            <ChevronRightIcon />
+          </button>
+        )}
       </div>
 
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
-        Testimonio {activeIndex + 1} de {total}
-      </p>
+      {isNavigable && (
+        <div className="lr-testimonial-dots">
+          {items.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={`lr-testimonial-dot${
+                index === activeIndex ? " is-active" : ""
+              }`}
+              onClick={() => goTo(index)}
+              aria-label={`Ver testimonio ${index + 1} de ${total}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+            />
+          ))}
+        </div>
+      )}
+
+      {isNavigable && (
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          Testimonio {activeIndex + 1} de {total}
+        </p>
+      )}
     </div>
   );
 }
