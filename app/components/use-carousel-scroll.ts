@@ -9,6 +9,15 @@ export interface CarouselScroll {
   activeIndex: number;
   /** Scrolls the given slide into view, smoothly where motion is allowed. */
   goTo: (index: number) => void;
+  /**
+   * Height of the active slide in px, or null before it has been measured.
+   * Slides in a flex track all stretch to the tallest one, which strands the
+   * controls far below a short testimonial; exposing this lets the viewport
+   * shrink to the slide actually on screen. Null renders no height at all, so
+   * the natural stretched layout is the fallback when measurement is
+   * unavailable.
+   */
+  activeHeight: number | null;
 }
 
 /**
@@ -21,6 +30,7 @@ export interface CarouselScroll {
 export function useCarouselScroll(total: number): CarouselScroll {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeHeight, setActiveHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -57,6 +67,33 @@ export function useCarouselScroll(total: number): CarouselScroll {
     if (total > 0 && activeIndex > total - 1) setActiveIndex(total - 1);
   }, [total, activeIndex]);
 
+  // Measure the active slide so the viewport can shrink to it. Re-measures on
+  // resize, which also covers rotation and late web-font loads reflowing text.
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || total === 0) return;
+    if (typeof ResizeObserver === "undefined") return;
+
+    const slideAt = (index: number) =>
+      viewport.querySelector<HTMLElement>(`[data-slide-index="${index}"]`);
+
+    const measure = () => {
+      const slide = slideAt(activeIndex);
+      // scrollHeight, not offsetHeight: the slide is currently stretched by
+      // the flex track, so offsetHeight would report the tallest slide.
+      if (slide) setActiveHeight(slide.scrollHeight);
+    };
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(viewport);
+    const slide = slideAt(activeIndex);
+    if (slide) observer.observe(slide);
+
+    return () => observer.disconnect();
+  }, [activeIndex, total]);
+
   const goTo = useCallback((index: number) => {
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -67,5 +104,5 @@ export function useCarouselScroll(total: number): CarouselScroll {
     setActiveIndex(index);
   }, []);
 
-  return { viewportRef, activeIndex, goTo };
+  return { viewportRef, activeIndex, goTo, activeHeight };
 }

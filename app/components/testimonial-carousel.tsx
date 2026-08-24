@@ -60,7 +60,7 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
   // One testimonial needs no navigation; zero would make the wrap-around
   // arithmetic below divide by zero.
   const isNavigable = total > 1;
-  const { viewportRef, activeIndex, goTo } = useCarouselScroll(total);
+  const { viewportRef, activeIndex, goTo, activeHeight } = useCarouselScroll(total);
 
   const goPrev = useCallback(() => {
     goTo((activeIndex - 1 + total) % total);
@@ -93,12 +93,23 @@ export function TestimonialCarousel({ items }: { items: TestimonialItem[] }) {
           </button>
         )}
 
-        <div className="lr-testimonial-viewport" ref={viewportRef}>
+        <div
+          className="lr-testimonial-viewport"
+          ref={viewportRef}
+          // Consumed only below the mobile breakpoint; desktop ignores it and
+          // keeps the natural stretched height.
+          style={
+            activeHeight
+              ? ({ "--lr-testimonial-h": `${activeHeight}px` } as React.CSSProperties)
+              : undefined
+          }
+        >
           <div className="lr-testimonial-track">
             {items.map((item, index) => (
               <article
                 key={index}
                 className="lr-testimonial-slide"
+                data-slide-index={index}
                 aria-hidden={index !== activeIndex}
                 aria-labelledby={`${liveId}-heading-${index}`}
                 role="group"

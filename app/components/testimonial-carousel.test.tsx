@@ -44,6 +44,9 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  // Individual tests may patch these onto the prototype; drop them so the
+  // suite stays order-independent.
+  Reflect.deleteProperty(HTMLElement.prototype, "scrollHeight");
 });
 
 /** Simulates a touch swipe landing on the given slide. */
@@ -182,6 +185,47 @@ describe("TestimonialCarousel", () => {
     render(<TestimonialCarousel items={THREE_ITEMS} />);
 
     expect(screen.getAllByRole("button", { name: /^ver testimonio \d de 3$/i })).toHaveLength(3);
+  });
+
+  it("sizes the viewport to the active slide and follows swipes", () => {
+    const heights = [300, 900, 500];
+    Object.defineProperty(HTMLElement.prototype, "scrollHeight", {
+      configurable: true,
+      get(this: HTMLElement) {
+        const index = Number(this.getAttribute("data-slide-index"));
+        return Number.isNaN(index) ? 0 : heights[index];
+      }
+    });
+    const observed: Element[] = [];
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        observe(element: Element) {
+          observed.push(element);
+        }
+        disconnect() {}
+      }
+    );
+
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+    const viewport = document.querySelector<HTMLElement>(".lr-testimonial-viewport");
+
+    expect(viewport?.style.getPropertyValue("--lr-testimonial-h")).toBe("300px");
+
+    swipeTo(1);
+    expect(viewport?.style.getPropertyValue("--lr-testimonial-h")).toBe("900px");
+  });
+
+  it("omits the height variable when measurement is unavailable", () => {
+    // No ResizeObserver (older browsers, some test envs): the carousel must
+    // still render and fall back to the naturally stretched height.
+    vi.stubGlobal("ResizeObserver", undefined);
+
+    render(<TestimonialCarousel items={THREE_ITEMS} />);
+    const viewport = document.querySelector<HTMLElement>(".lr-testimonial-viewport");
+
+    expect(viewport?.style.getPropertyValue("--lr-testimonial-h")).toBe("");
+    expect(activeSlideText()).toContain("Autora Uno");
   });
 
   it("renders nothing when there are no testimonials", () => {

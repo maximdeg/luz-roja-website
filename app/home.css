@@ -619,6 +619,7 @@
 @media (prefers-reduced-motion: reduce) {
   .lr-testimonial-viewport {
     scroll-behavior: auto;
+    transition: none;
   }
 
   .lr-testimonial-dot::before {
@@ -673,6 +674,20 @@
     font-style: normal;
     color: var(--color-accent);
     opacity: 0.55;
+  }
+
+  /* Slides in a flex track all stretch to the tallest one, which left the
+     dots stranded far below a short testimonial. Shrink the viewport to the
+     slide actually on screen so the controls sit just under its text.
+     Falls back to the stretched height when the var is unset. */
+  .lr-testimonial-viewport {
+    height: var(--lr-testimonial-h, auto);
+    transition: height 0.35s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+
+  .lr-testimonial-slide {
+    /* Do not stretch to the track; the measured height governs instead. */
+    align-self: flex-start;
   }
 
   .lr-testimonial-inner {
