@@ -660,25 +660,35 @@
     content: "\201D";
     /* Purely decorative: the alt text keeps it out of the accessible name. */
     content: "\201D" / "";
+    /* Behind the text like the opening mark, pinned right but riding the LAST
+       line. A right float drops to the right edge of the line box it lands on,
+       which — as the final thing in the paragraph — is the last line. Zero
+       width keeps it from reserving space, so the text is not pushed around it
+       and the glyph is free to sit underneath. */
     display: inline;
-    margin-left: 0.04em;
+    float: right;
+    width: 0;
+    margin-left: 0;
     /* Matches the opening mark. vw-based so it still resolves without
        container-query support; the @supports block below switches both to cqw.
-       line-height 0 keeps the oversized glyph from opening up the line box,
-       and top pulls it back down onto the baseline of the text it trails. */
+       line-height 0 keeps the oversized glyph from opening up the line box. */
     font-size: clamp(3rem, 19vw, 6.5rem);
     line-height: 0;
+    /* Pull left off the float origin so the glyph body lands inside the edge,
+       and down to sit on the last line's baseline. */
     position: relative;
-    /* margin-top would be ignored on an inline box; the extra 10px of drop
-       goes through the same offset that seats the glyph on the baseline. */
-    top: calc(0.22em + 10px);
+    right: 0.42em;
+    top: calc(0.2em + 20px);
+    z-index: -1;
     font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
       BlinkMacSystemFont, sans-serif;
     font-weight: 700;
     /* Upright: the quote text is italic and the mark should not slant. */
     font-style: normal;
+    /* Brand red, at the same opacity as the opening mark — both sit behind
+       the text, so a heavier alpha here would read as a different colour. */
     color: var(--color-accent);
-    opacity: 0.55;
+    opacity: 0.28;
   }
 
   /* Slides in a flex track all stretch to the tallest one, which left the
