@@ -639,9 +639,10 @@
     display: flex;
   }
 
-  /* Opening quote reads as background texture rather than competing. */
+  /* Opening quote reads as background texture rather than competing.
+     vw fallback first; the @supports block below prefers cqw. */
   .lr-testimonial-carousel::before {
-    font-size: clamp(3rem, 26cqw, 6.5rem);
+    font-size: clamp(3rem, 19vw, 6.5rem);
     opacity: 0.28;
   }
 
@@ -660,13 +661,15 @@
     /* Purely decorative: the alt text keeps it out of the accessible name. */
     content: "\201D" / "";
     display: inline;
-    margin-left: 0.06em;
-    /* Sized in em so it tracks the quote text, and pulled down onto the
-       baseline; vertical-align would push the line box open. */
-    font-size: 2.1em;
+    margin-left: 0.04em;
+    /* Matches the opening mark. vw-based so it still resolves without
+       container-query support; the @supports block below switches both to cqw.
+       line-height 0 keeps the oversized glyph from opening up the line box,
+       and top pulls it back down onto the baseline of the text it trails. */
+    font-size: clamp(3rem, 19vw, 6.5rem);
     line-height: 0;
     position: relative;
-    top: 0.32em;
+    top: 0.22em;
     font-family: var(--font-montserrat), "Montserrat", system-ui, -apple-system,
       BlinkMacSystemFont, sans-serif;
     font-weight: 700;
@@ -688,6 +691,15 @@
   .lr-testimonial-slide {
     /* Do not stretch to the track; the measured height governs instead. */
     align-self: flex-start;
+  }
+
+  /* Both marks track the carousel width where container queries are
+     supported, keeping the pair the same size as the layout changes. */
+  @supports (width: 1cqw) {
+    .lr-testimonial-carousel::before,
+    .lr-testimonial-quote p::after {
+      font-size: clamp(3rem, 26cqw, 6.5rem);
+    }
   }
 
   .lr-testimonial-inner {
